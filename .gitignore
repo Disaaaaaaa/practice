@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+.env
+*.log
+
+# Official NIS exam materials (copyrighted) — kept local only, never pushed
+*.pdf

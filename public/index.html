@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Page Design Theory — AQA A Level / NIS Online Worksheet</title>
+<style>
+:root{--bg:#f4f7fb;--surface:#fff;--soft:#eef3f9;--line:#d8e1ed;--text:#182235;--muted:#64748b;--blue:#2457d6;--blue2:#173da8;--green:#087a53;--red:#b42318;--amber:#9a6700;--code:#101827;--shadow:0 10px 30px rgba(35,55,90,.08);--r:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}button,input,select,textarea{font:inherit}
+.hero{color:#fff;padding:38px 22px 32px;background:linear-gradient(135deg,var(--blue2),#3473ed)}.hero-inner{width:min(1250px,100%);margin:auto}.hero small{font-weight:800;letter-spacing:.05em}.hero h1{margin:10px 0 8px;font-size:clamp(2rem,4vw,3.4rem)}.hero p{max-width:900px;color:#e8efff;margin:0}.objectives{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.objective{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.09);border-radius:12px;padding:12px 14px}.objective strong{display:block}
+.topbar{display:flex;align-items:center;justify-content:flex-end;gap:10px;color:#fff;font-size:.86rem;margin-top:14px}.topbar .role{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:4px 10px;border-radius:999px;font-weight:800;text-transform:uppercase;font-size:.72rem}.topbar button{border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700}
+.exam-strip{width:min(1250px,calc(100% - 24px));margin:18px auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.exam-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}.exam-card span{display:block;color:var(--muted);font-size:.77rem;font-weight:800;text-transform:uppercase}.exam-card strong{font-size:1.08rem}
+.page{width:min(1250px,calc(100% - 24px));margin:auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;align-items:start}.sidebar{position:sticky;top:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px}.sidebar h2{font-size:1rem;margin:0 0 8px}.sidebar a{display:block;text-decoration:none;color:#536176;padding:7px 8px;border-radius:8px}.sidebar a:hover{background:#eef3ff;color:var(--blue)}.progress{margin-top:12px;background:var(--soft);padding:11px;border-radius:10px}.progress strong{display:block;font-size:1.35rem}.bar{height:8px;background:#dce4ef;border-radius:99px;overflow:hidden;margin-top:7px}.fill{height:100%;width:0;background:var(--blue)}
+main{min-width:0}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;margin-bottom:18px;scroll-margin-top:14px}.panel h2{margin:0 0 8px;font-size:1.55rem}.intro{margin:0;color:var(--muted)}.student-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:16px}.student-grid label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:4px}.student-grid input{width:100%;padding:9px 10px;border:1px solid #c4cfdd;border-radius:8px}
+.section-head{display:flex;justify-content:space-between;gap:12px}.tag{white-space:nowrap;background:#eef3ff;color:var(--blue2);padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:800}.question{border-top:1px solid var(--line);padding-top:20px;margin-top:20px}.qhead{display:flex;justify-content:space-between;gap:12px}.qtitle{font-weight:800}.mark{white-space:nowrap;background:#172033;color:#fff;border-radius:7px;padding:3px 8px;font-size:.78rem;font-weight:800}.command{color:var(--blue2);font-weight:900}.scenario{background:#f7f9fc;border-left:4px solid var(--blue);padding:11px 13px;border-radius:0 9px 9px 0;margin:12px 0}
+.answer{width:100%;border:1px solid #bcc8d8;border-radius:9px;padding:10px 11px;background:#fff;color:var(--text)}textarea.answer{min-height:95px;resize:vertical}.answer:focus{outline:3px solid rgba(36,87,214,.15);border-color:var(--blue)}.answer:disabled,.answer[readonly]{background:#f3f5f8;color:#596577}.code-answer{min-height:180px!important;font-family:Consolas,monospace;background:#fbfcfe}.code{white-space:pre-wrap;overflow:auto;background:var(--code);color:#eaf0f8;border-radius:10px;padding:14px;font-family:Consolas,monospace;font-size:.87rem;line-height:1.5;margin:12px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:9px;padding:9px}.mini label{display:block;font-size:.84rem;font-weight:700;margin-bottom:5px}.mini select{width:100%}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.btn{border:0;border-radius:8px;padding:10px 13px;font-weight:800;cursor:pointer}.btn:disabled{opacity:.5;cursor:not-allowed}.primary{background:var(--blue);color:#fff}.success{background:var(--green);color:#fff}.secondary{background:#e9eef6;color:#253148}.danger{background:#fce8e6;color:#9d2117}.ghost{background:#fff;border:1px solid var(--line);color:#253148}.status{display:none;margin-top:12px;padding:10px 12px;border-radius:9px;background:var(--soft)}.status.show{display:block}.status.err{background:#fce8e6;color:#9d2117}.status.ok{background:#e9f8f1;color:#087a53}
+.mark-scheme{display:none}.mark-scheme.show{display:block}.ms-q{border-top:1px solid var(--line);padding:15px 0}.ms-q:first-child{border-top:0}.ms-q h3{margin:0 0 6px;font-size:1rem}.ms-q ul{margin:0;padding-left:1.2rem}.model{white-space:pre-wrap;background:var(--code);color:#eaf0f8;border-radius:9px;padding:12px;font-family:Consolas,monospace;font-size:.86rem}.selfmark{display:grid;grid-template-columns:1fr 120px;gap:10px;align-items:center;margin-top:14px}.selfmark input{width:100%;border:1px solid #bcc8d8;border-radius:8px;padding:8px}
+.ai-row{display:flex;align-items:center;gap:9px;margin-top:8px;flex-wrap:wrap}.ai-btn{background:#eef3ff;color:var(--blue2);border:1px solid #cdddff;border-radius:7px;padding:6px 10px;font-size:.82rem;font-weight:800;cursor:pointer}.ai-btn:disabled{opacity:.5;cursor:not-allowed}.ai-result{display:none;margin-top:8px;padding:9px 11px;border-radius:9px;background:#f7f9fc;border:1px solid var(--line);font-size:.88rem}.ai-result.show{display:block}.ai-result strong{color:var(--blue2)}
+.lockbanner{display:none;background:#fff4e5;border:1px solid #f3cf8e;color:var(--amber);padding:10px 14px;border-radius:10px;margin:0 0 14px;font-size:.88rem;font-weight:700}.lockbanner.show{display:block}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);background:#172033;color:#fff;padding:10px 16px;border-radius:10px;font-size:.86rem;font-weight:700;box-shadow:var(--shadow);transition:transform .25s ease;z-index:999}.toast.show{transform:translateX(-50%) translateY(0)}
+.authwrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,var(--blue2),#3473ed)}.authcard{width:min(420px,100%);background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:26px}.authcard h1{font-size:1.4rem;margin:0 0 4px}.authcard p{color:var(--muted);margin:0 0 16px;font-size:.9rem}.authtabs{display:flex;gap:6px;margin-bottom:16px;background:var(--soft);padding:4px;border-radius:10px}.authtabs button{flex:1;border:0;background:transparent;padding:8px;border-radius:7px;font-weight:800;cursor:pointer;color:var(--muted)}.authtabs button.active{background:#fff;color:var(--blue2);box-shadow:0 2px 6px rgba(35,55,90,.1)}.authfield{margin-bottom:12px}.authfield label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:4px}.authfield input,.authfield select{width:100%;padding:10px 11px;border:1px solid #c4cfdd;border-radius:8px}.authcard .btn{width:100%;margin-top:4px}.authnote{font-size:.78rem;color:var(--muted);margin-top:12px}.autherr{display:none;background:#fce8e6;color:#9d2117;padding:9px 11px;border-radius:8px;font-size:.85rem;margin-bottom:12px}.autherr.show{display:block}
+.dash-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.88rem}.dash-table th,.dash-table td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}.dash-table th{color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.03em}.dash-table tr:hover{background:#f7f9fc}.dash-badge{background:#eef3ff;color:var(--blue2);border-radius:999px;padding:2px 8px;font-size:.76rem;font-weight:800}.dash-badge.warn{background:#fff4e5;color:var(--amber)}.viewbtn{background:none;border:1px solid var(--line);border-radius:7px;padding:4px 9px;font-size:.78rem;cursor:pointer}
+.hidden{display:none!important}
+.page.single-col{grid-template-columns:1fr}.page.single-col main{max-width:880px;margin:auto;width:100%}
+.result-total{font-size:2rem;font-weight:900;color:var(--blue2)}
+@media(max-width:900px){.page{grid-template-columns:1fr}.sidebar{position:relative}.exam-strip{grid-template-columns:1fr 1fr}}@media(max-width:650px){.objectives,.student-grid,.grid2{grid-template-columns:1fr}.panel{padding:18px}}
+</style>
+</head>
+<body>
+
+<div id="authScreen" class="authwrap">
+  <div class="authcard">
+    <h1>Web Page Design Theory</h1>
+    <p>Sign in with the nickname and password your teacher gave you.</p>
+    <div id="authError" class="autherr"></div>
+    <form id="authForm">
+      <div class="authfield"><label>Nickname</label><input type="text" id="authNickname" required autocomplete="username" autocapitalize="off"></div>
+      <div class="authfield"><label>Password</label><input type="password" id="authPassword" required autocomplete="current-password"></div>
+      <button type="submit" class="btn primary" id="authSubmit">Sign in</button>
+    </form>
+    <p class="authnote">No self-service sign-up: accounts are created by your teacher. If this is your first time signing in, you'll be asked to set a new password straight away.</p>
+  </div>
+</div>
+
+<div id="changePasswordScreen" class="authwrap hidden">
+  <div class="authcard">
+    <h1>Set a new password</h1>
+    <p>This is your first sign-in (or your password was reset). Choose a new password to continue.</p>
+    <div id="pwError" class="autherr"></div>
+    <form id="pwForm">
+      <div class="authfield"><label>New password</label><input type="password" id="pwNew" required minlength="6" autocomplete="new-password"></div>
+      <div class="authfield"><label>Confirm new password</label><input type="password" id="pwConfirm" required minlength="6" autocomplete="new-password"></div>
+      <button type="submit" class="btn primary" id="pwSubmit">Set password and continue</button>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header class="hero"><div class="hero-inner">
+  <small>COMPUTER SCIENCE • WEB PAGE DESIGN</small><h1>Online Theory Worksheet</h1>
+  <p>AQA A Level–style command words and marking combined with NIS-style application and code-analysis questions.</p>
+  <div class="objectives"><div class="objective"><strong>11.5.3.2</strong>Create an interface using HTML and CSS.</div><div class="objective"><strong>11.5.3.4</strong>Create HTML forms for data entry.</div></div>
+  <div class="topbar"><button id="backToTeacherBtn" class="hidden">← Teacher Home</button><span id="userNickname"></span><span class="role" id="userRole"></span><button id="logoutBtn">Log out</button></div>
+</div></header>
+
+<div class="exam-strip">
+<div class="exam-card"><span>Time allowed</span><strong>75 minutes</strong></div>
+<div class="exam-card"><span>Total marks</span><strong>60</strong></div>
+<div class="exam-card"><span>Sections</span><strong>A, B and C</strong></div>
+<div class="exam-card"><span>Level</span><strong>A Level / NIS</strong></div>
+</div>
+
+<div class="page" id="pageGrid">
+<aside class="sidebar" id="sidebar">
+<h2>Worksheet</h2>
+<a href="#instructions">Instructions</a><a href="#a">Section A — Knowledge</a><a href="#b">Section B — Application</a><a href="#c">Section C — Code</a><a href="#submit">Check / Submit</a><a href="#msPanel">Mark scheme</a>
+<div class="progress"><span>Answered</span><strong><span id="answered">0</span>/<span id="totalFields">0</span></strong><div class="bar"><div class="fill" id="fill"></div></div><small>Autosaved in this browser.</small></div>
+</aside>
+
+<main>
+<div id="lockBanner" class="lockbanner"></div>
+
+<section class="panel" id="instructions">
+<h2>Instructions</h2><p class="intro">Answer all questions. Marks are shown in brackets. Use precise Computer Science terminology and develop explanations where required. Copying/pasting and leaving this tab are logged for your teacher.</p>
+<div class="student-grid"><div><label>Name</label><input data-save="name"></div><div><label>Class</label><input data-save="class"></div><div><label>Date</label><input type="date" data-save="date"></div></div>
+</section>
+
+<section class="panel" id="a">
+<div class="section-head"><div><h2>Section A — Knowledge and Understanding</h2><p class="intro">Core HTML, CSS and forms theory.</p></div><span class="tag">22 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">1. <span class="command">State</span> the main role of HTML and the main role of CSS.</div><span class="mark">[2]</span></div><textarea class="answer" data-save="q1"></textarea><div class="ai-row" data-ai="q1"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">2. <span class="command">Explain</span> why a <code>&lt;div&gt;</code> element is used in HTML.</div><span class="mark">[2]</span></div><textarea class="answer" data-save="q2"></textarea><div class="ai-row" data-ai="q2"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">3. Select the most appropriate semantic HTML element for each purpose.</div><span class="mark">[4]</span></div>
+<div class="grid2">
+<div class="mini"><label>Major navigation links</label><select class="answer auto" data-save="q3a" data-correct="nav"><option value="">Choose...</option><option>header</option><option>nav</option><option>section</option><option>footer</option></select></div>
+<div class="mini"><label>Main unique page content</label><select class="answer auto" data-save="q3b" data-correct="main"><option value="">Choose...</option><option>main</option><option>article</option><option>aside</option><option>nav</option></select></div>
+<div class="mini"><label>Self-contained content item</label><select class="answer auto" data-save="q3c" data-correct="article"><option value="">Choose...</option><option>div</option><option>article</option><option>main</option><option>footer</option></select></div>
+<div class="mini"><label>Footer information</label><select class="answer auto" data-save="q3d" data-correct="footer"><option value="">Choose...</option><option>section</option><option>header</option><option>footer</option><option>span</option></select></div>
+</div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">4. Select the correct CSS selector.</div><span class="mark">[4]</span></div>
+<div class="grid2">
+<div class="mini"><label>All paragraphs</label><select class="answer auto" data-save="q4a" data-correct="p"><option value="">Choose...</option><option>p</option><option>.p</option><option>#p</option></select></div>
+<div class="mini"><label>class="card"</label><select class="answer auto" data-save="q4b" data-correct=".card"><option value="">Choose...</option><option>card</option><option>#card</option><option>.card</option></select></div>
+<div class="mini"><label>id="header"</label><select class="answer auto" data-save="q4c" data-correct="#header"><option value="">Choose...</option><option>.header</option><option>#header</option><option>header#</option></select></div>
+<div class="mini"><label>Links inside nav</label><select class="answer auto" data-save="q4d" data-correct="nav a"><option value="">Choose...</option><option>nav+a</option><option>nav.a</option><option>nav a</option></select></div>
+</div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">5. <span class="command">Describe</span> the four parts of the CSS box model.</div><span class="mark">[4]</span></div><textarea class="answer" data-save="q5" placeholder="Content: ...&#10;Padding: ...&#10;Border: ...&#10;Margin: ..."></textarea><div class="ai-row" data-ai="q5"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">6. <span class="command">Explain</span> the difference between a class and an ID in HTML/CSS.</div><span class="mark">[3]</span></div><textarea class="answer" data-save="q6"></textarea><div class="ai-row" data-ai="q6"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">7. <span class="command">Explain</span> why responsive design and media queries are used.</div><span class="mark">[3]</span></div><textarea class="answer" data-save="q7"></textarea><div class="ai-row" data-ai="q7"></div></div>
+</section>
+
+<section class="panel" id="b">
+<div class="section-head"><div><h2>Section B — Application</h2><p class="intro">Apply the theory to realistic interface scenarios.</p></div><span class="tag">22 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">8. A school website displays six course cards. <span class="command">Recommend</span> Flexbox or CSS Grid and explain your answer.</div><span class="mark">[4]</span></div><div class="scenario">The cards must appear in rows and columns with consistent gaps.</div><textarea class="answer" data-save="q8"></textarea><div class="ai-row" data-ai="q8"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">9. <span class="command">Write</span> a media query that changes <code>.cards</code> to one column when the viewport width is 700 px or less.</div><span class="mark">[3]</span></div><textarea class="answer code-answer" data-save="q9" spellcheck="false"></textarea><div class="ai-row" data-ai="q9"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">10. <span class="command">Identify</span> suitable form controls for: full name, email, one study mode, several interests and a long personal statement. Justify one choice.</div><span class="mark">[5]</span></div><textarea class="answer" data-save="q10"></textarea><div class="ai-row" data-ai="q10"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">11. <span class="command">Explain</span> one appropriate use of GET and one appropriate use of POST.</div><span class="mark">[3]</span></div><textarea class="answer" data-save="q11"></textarea><div class="ai-row" data-ai="q11"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">12. <span class="command">Explain</span> why server-side validation is still required when client-side validation is used.</div><span class="mark">[3]</span></div><textarea class="answer" data-save="q12"></textarea><div class="ai-row" data-ai="q12"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">13. <span class="command">Explain</span> two ways to improve the accessibility of an HTML form.</div><span class="mark">[4]</span></div><textarea class="answer" data-save="q13"></textarea><div class="ai-row" data-ai="q13"></div></div>
+</section>
+
+<section class="panel" id="c">
+<div class="section-head"><div><h2>Section C — Code Analysis and Writing</h2><p class="intro">Read, explain, correct and write HTML/CSS code.</p></div><span class="tag">16 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">14. Study the following code.</div><span class="mark">[6]</span></div>
+<div class="code">&lt;div class="cards"&gt;
+  &lt;div class="card"&gt;HTML&lt;/div&gt;
+  &lt;div class="card"&gt;CSS&lt;/div&gt;
+  &lt;div class="card"&gt;Forms&lt;/div&gt;
+&lt;/div&gt;
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}</div>
+<p><strong>(a)</strong> Explain the purpose of the outer <code>&lt;div class="cards"&gt;</code>. [2]</p><textarea class="answer" data-save="q14a"></textarea><div class="ai-row" data-ai="q14a"></div>
+<p><strong>(b)</strong> Explain <code>grid-template-columns: repeat(3, 1fr);</code>. [2]</p><textarea class="answer" data-save="q14b"></textarea><div class="ai-row" data-ai="q14b"></div>
+<p><strong>(c)</strong> Explain the effect of <code>gap: 20px;</code>. [2]</p><textarea class="answer" data-save="q14c"></textarea><div class="ai-row" data-ai="q14c"></div>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">15. <span class="command">Rewrite</span> this form using appropriate labels, IDs, names, input types and required validation.</div><span class="mark">[5]</span></div>
+<div class="code">&lt;form&gt;
+  Name
+  &lt;input&gt;
+
+  Email
+  &lt;input&gt;
+
+  &lt;button&gt;Send&lt;/button&gt;
+&lt;/form&gt;</div>
+<textarea class="answer code-answer" data-save="q15" spellcheck="false"></textarea><div class="ai-row" data-ai="q15"></div></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">16. <span class="command">Write</span> CSS for <code>.form-card</code>.</div><span class="mark">[5]</span></div>
+<div class="scenario">max-width: 600px<br>padding: 20px<br>border: 1px solid #D8E0EB<br>border-radius: 12px<br>background: white</div>
+<textarea class="answer code-answer" data-save="q16" spellcheck="false"></textarea><div class="ai-row" data-ai="q16"></div></div>
+</section>
+
+<section class="panel" id="submit">
+<h2>Submit</h2><p class="intro" id="submitIntro">Once every question is answered, submit your worksheet to get your score and feedback.</p>
+<div class="actions">
+  <button class="btn primary" id="check">Check objective questions</button>
+  <button class="btn primary" id="submitBtn">Submit worksheet</button>
+  <button class="btn success" id="reveal">Reveal mark scheme</button>
+  <button class="btn secondary" id="printBtn" onclick="window.print()">Print</button>
+  <button class="btn danger" id="reset">Clear all answers</button>
+</div>
+<div class="status" id="status"></div>
+<div class="selfmark" id="selfmarkRow"><label><strong>Teacher / self-assessed total score</strong> (out of 60)</label><input type="number" min="0" max="60" data-save="score"></div>
+</section>
+
+<section class="panel hidden" id="resultsPanel"></section>
+
+<section class="panel" id="msPanel">
+<div class="section-head"><div><h2>Mark Scheme</h2><p class="intro">Released automatically once your worksheet is submitted. Accept equivalent technically correct wording and valid alternative code.</p></div><span class="tag">60 marks</span></div>
+<div class="mark-scheme" id="ms"></div>
+</section>
+</main>
+</div>
+</div>
+
+<div id="classLockedScreen" class="authwrap hidden">
+  <div class="authcard">
+    <h1>Not open yet</h1>
+    <p id="classLockedMsg">Your teacher has not opened access for your class yet. Please wait and try again.</p>
+    <button type="button" class="btn primary" id="classLockedRetry">Check again</button>
+    <button type="button" class="btn secondary" id="classLockedLogout" style="margin-top:9px">Log out</button>
+  </div>
+</div>
+
+<div id="assignmentChooserScreen" class="authwrap hidden">
+  <div class="authcard">
+    <h1>Choose what to open</h1>
+    <p>Your teacher has opened more than one of these for your class.</p>
+    <div id="chooserList" class="actions" style="flex-direction:column;align-items:stretch"></div>
+    <button type="button" class="btn secondary" id="chooserLogout" style="margin-top:9px">Log out</button>
+  </div>
+</div>
+
+<div id="appPaper1" class="hidden">
+<header class="hero"><div class="hero-inner">
+  <small>COMPUTER SCIENCE • NIS GRADE 12</small><h1>Paper 1 2023</h1>
+  <p>NIS-style command words and marking for the May 2023 Grade 12 Computer Science Paper 1 mock exam.</p>
+  <div class="objectives"><div class="objective"><strong>Paper 1</strong>Data representation, security, software, hardware, programming and networks.</div><div class="objective"><strong>Max mark</strong>70</div></div>
+  <div class="topbar"><button id="backToTeacherBtnP1" class="hidden">← Teacher Home</button><span id="userNicknameP1"></span><span class="role" id="userRoleP1"></span><button id="logoutBtnP1">Log out</button></div>
+</div></header>
+
+<div class="exam-strip">
+<div class="exam-card"><span>Time allowed</span><strong>1 hour 30 mins</strong></div>
+<div class="exam-card"><span>Total marks</span><strong>70</strong></div>
+<div class="exam-card"><span>Questions</span><strong>1 to 12</strong></div>
+<div class="exam-card"><span>Level</span><strong>NIS Grade 12</strong></div>
+</div>
+
+<div class="page" id="pageGridP1">
+<aside class="sidebar" id="sidebarP1">
+<h2>Paper 1 2023</h2>
+<a href="#p1-a">Questions 1–3</a><a href="#p1-b">Questions 4–6</a><a href="#p1-c">Questions 7–9</a><a href="#p1-d">Questions 10–12</a><a href="#p1-submit">Check / Submit</a><a href="#p1-msPanel">Mark scheme</a>
+<div class="progress"><span>Answered</span><strong><span id="answeredP1">0</span>/<span id="totalFieldsP1">0</span></strong><div class="bar"><div class="fill" id="fillP1"></div></div><small>Autosaved in this browser.</small></div>
+</aside>
+
+<main>
+<div id="lockBannerP1" class="lockbanner"></div>
+
+<section class="panel" id="p1-instructions">
+<h2>Instructions</h2><p class="intro">Answer all questions. Marks are shown in brackets. Show your working for calculation questions. Copying/pasting and leaving this tab are logged for your teacher.</p>
+<div class="student-grid"><div><label>Name</label><input data-save="p1_name"></div><div><label>Class</label><input data-save="p1_class"></div><div><label>Date</label><input type="date" data-save="p1_date"></div></div>
+</section>
+
+<section class="panel" id="p1-a">
+<div class="section-head"><div><h2>Questions 1–3</h2><p class="intro">Data representation, data quality and blockchain.</p></div><span class="tag">13 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">1. Data is represented using binary in computer systems. A computer register has the following binary number stored in it: <code>01011011</code></div></div>
+<p><strong>(a)</strong> <span class="command">Convert</span> the binary integer to denary. [1]</p><textarea class="answer" data-save="p1_1a"></textarea>
+<p><strong>(b)</strong> <span class="command">Convert</span> the binary integer to hexadecimal. [1]</p><textarea class="answer" data-save="p1_1b"></textarea>
+<p><strong>(c)</strong> <span class="command">Perform</span> subtraction of 8-bit binary number 00100111 from 01001001 using two's complement. Show your working. [3]</p><textarea class="answer code-answer" data-save="p1_1c" spellcheck="false"></textarea>
+<p><strong>(d)</strong> <span class="command">Convert</span> the denary number 17.75 into binary using normalised floating-point representation with 10 bits for the mantissa and 6 bits for the exponent, both expressed in two's complement. [4]</p><textarea class="answer code-answer" data-save="p1_1d" spellcheck="false"></textarea>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">2. <span class="command">Explain</span> the difference between data verification and validation.</div><span class="mark">[2]</span></div><textarea class="answer" data-save="p1_2"></textarea></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">3. Blockchain is widely used in different areas.</div></div>
+<p><strong>(a)</strong> <span class="command">Describe</span> what blockchain technology is. [1]</p><textarea class="answer" data-save="p1_3a"></textarea>
+<p><strong>(b)</strong> <span class="command">Give</span> one example of using blockchain technology. [1]</p><textarea class="answer" data-save="p1_3b"></textarea>
+</div>
+</section>
+
+<section class="panel" id="p1-b">
+<div class="section-head"><div><h2>Questions 4–6</h2><p class="intro">Security, open-source software and operating systems.</p></div><span class="tag">18 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">4. A bank system stores personal data of their clients using encryption.</div></div>
+<p><strong>(a)</strong> <span class="command">Describe</span> how encryption protects private information. [1]</p><textarea class="answer" data-save="p1_4a"></textarea>
+<p><strong>(b)</strong> <span class="command">List</span> three other security measures to prevent hacking. [3]</p><textarea class="answer" data-save="p1_4b"></textarea>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">5. An IT school trains information security specialists.</div></div>
+<p><strong>(a)</strong> The school uses various types of software. <span class="command">Describe</span> two features of open-source software. [2]</p><textarea class="answer" data-save="p1_5a"></textarea>
+<p><strong>(b)</strong> Confidential materials of the school are stored in the cloud. <span class="command">Explain</span> the risks of using cloud technologies. [2]</p><textarea class="answer" data-save="p1_5b"></textarea>
+<p><strong>(c)</strong> The school database is always at risk of system cracking. <span class="command">Write</span> ways to protect against cracking. [2]</p><textarea class="answer" data-save="p1_5c"></textarea>
+<p><strong>(d)</strong> To create a presentation, students need high-quality pictures. <span class="command">Explain</span> legal ways to use images from the Internet. [2]</p><textarea class="answer" data-save="p1_5d"></textarea>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">6. <span class="command">State</span> which description matches each software type.</div><span class="mark">[2]</span></div>
+<div class="scenario">General-purpose software / Bespoke software / Special-purpose software — match each to one of:<br>• It can only be used for one particular task.<br>• It is off-the-shelf software that can be used for a variety of tasks.<br>• It is developed to meet the user's specific requirements.</div>
+<textarea class="answer" data-save="p1_6a" placeholder="General-purpose software: ...&#10;Bespoke software: ...&#10;Special-purpose software: ..."></textarea>
+<p><strong>(b)</strong> <span class="command">Explain</span> two functions of an operating system. [2]</p><textarea class="answer" data-save="p1_6b"></textarea>
+<p><strong>(c)</strong> Some computers use batch operating systems. <span class="command">Give</span> two features of the batch operating system. [2]</p><textarea class="answer" data-save="p1_6c"></textarea>
+</div>
+</section>
+
+<section class="panel" id="p1-c">
+<div class="section-head"><div><h2>Questions 7–9</h2><p class="intro">Computer architecture and programming paradigms.</p></div><span class="tag">17 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">7. The von Neumann architecture specifies the main components of the computer. ALU and CU are components of the CPU. <span class="command">Describe</span> their purpose.</div></div>
+<p><strong>(a)(i)</strong> ALU [1]</p><textarea class="answer" data-save="p1_7ai"></textarea>
+<p><strong>(a)(ii)</strong> CU [1]</p><textarea class="answer" data-save="p1_7aii"></textarea>
+<p><strong>(b)</strong> The system bus is made up of a data bus, an address bus and a control bus. <span class="command">Describe</span> the purpose of each. [3]</p><textarea class="answer" data-save="p1_7b"></textarea>
+<p><strong>(c)</strong> The CPU executes programs using the fetch-decode-execute cycle. <span class="command">Explain</span> what happens at each step. [3]</p><textarea class="answer" data-save="p1_7c"></textarea>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">8. The operating system uses the concept of virtual memory to store some of the data.</div></div>
+<p><strong>(a)</strong> <span class="command">Explain</span> the purpose of virtual memory. [2]</p><textarea class="answer" data-save="p1_8a"></textarea>
+<p><strong>(b)(i)</strong> Paging and segmentation are processes by which data is stored to, then retrieved from, a disk. <span class="command">Describe</span> the process of segmentation. [2]</p><textarea class="answer" data-save="p1_8bi"></textarea>
+<p><strong>(b)(ii)</strong> <span class="command">Define</span> the term memory address. [1]</p><textarea class="answer" data-save="p1_8bii"></textarea>
+<p><strong>(b)(iii)</strong> The program below uses two types of addressing modes. <span class="command">State</span> the addressing mode used in line 1 and in line 2.</p>
+<div class="code">1. LDA #5
+2. ADD 6
+3. OUT
+4. HLT
+5.      6
+6.      2
+7.      10
+8.      15</div>
+<textarea class="answer" data-save="p1_8biii" placeholder="Line 1: ...&#10;Line 2: ..."></textarea><p class="intro">[2]</p>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">9. <span class="command">Write</span> two differences between declarative and imperative programming.</div><span class="mark">[2]</span></div><textarea class="answer" data-save="p1_9"></textarea></div>
+</section>
+
+<section class="panel" id="p1-d">
+<div class="section-head"><div><h2>Questions 10–12</h2><p class="intro">Translators, IP addressing and networks.</p></div><span class="tag">22 marks</span></div>
+
+<div class="question"><div class="qhead"><div class="qtitle">10. A compiler and interpreter are translator programs that translate high-level code into low-level code.</div></div>
+<p><strong>(a)(i)</strong> <span class="command">Describe</span> two advantages of using a compiled programming language over an interpreted one. [2]</p><textarea class="answer" data-save="p1_10ai"></textarea>
+<p><strong>(a)(ii)</strong> <span class="command">Describe</span> two advantages of using an interpreted programming language instead of a compiled one. [2]</p><textarea class="answer" data-save="p1_10aii"></textarea>
+<p><strong>(b)</strong> A compiler translates source code through these stages: Source code → [A] → Syntax analysis → ... → Code generation → [B] → Object file.</p>
+<p><strong>(b)(i)</strong> <span class="command">Name and describe</span> stage A. [2]</p><textarea class="answer" data-save="p1_10bi"></textarea>
+<p><strong>(b)(ii)</strong> <span class="command">Name and describe</span> stage B. [2]</p><textarea class="answer" data-save="p1_10bii"></textarea>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">11.</div></div>
+<p><strong>(a)</strong> <span class="command">Explain</span> the purpose of the IP address. [2]</p><textarea class="answer" data-save="p1_11a"></textarea>
+<p><strong>(b)</strong> <span class="command">Write</span> the correct IP address from the given four octet values: A = 131, B = 29, C = 109, D = 191. [1]</p><textarea class="answer" data-save="p1_11b"></textarea>
+<p><strong>(c)</strong> <span class="command">Name</span> the OSI layer that uses the IP address. [1]</p><textarea class="answer" data-save="p1_11c"></textarea>
+<p><strong>(d)</strong> <span class="command">Determine</span> the network address in denary. Show your working.</p>
+<div class="scenario">IP address 10.21.129.46 = 00001010.00010101.10000001.00101110<br>Subnet mask 255.255.248.0 = 11111111.11111111.11111000.00000000</div>
+<textarea class="answer code-answer" data-save="p1_11d" spellcheck="false"></textarea><p class="intro">[3]</p>
+</div>
+
+<div class="question"><div class="qhead"><div class="qtitle">12. A computer network connects computers to solve common problems.</div></div>
+<p><strong>(a)</strong> <span class="command">Explain</span> how the Client-Server model works. [2]</p><textarea class="answer" data-save="p1_12a"></textarea>
+<p><strong>(b)</strong> <span class="command">Provide</span> two situations when the Client-Server model may be unstable. [2]</p><textarea class="answer" data-save="p1_12b"></textarea>
+<p><strong>(c)</strong> <span class="command">Explain</span> two differences between packet switching and circuit switching. [2]</p><textarea class="answer" data-save="p1_12c"></textarea>
+<p><strong>(d)</strong> <span class="command">State</span> a second-level domain name of the website www.sk.nis.edu.kz. [1]</p><textarea class="answer" data-save="p1_12d"></textarea>
+</div>
+</section>
+
+<section class="panel" id="p1-submit">
+<h2>Submit</h2><p class="intro" id="submitIntroP1">Once every question is answered, submit to get your score and feedback.</p>
+<div class="actions">
+  <button class="btn primary" id="submitBtnP1">Submit worksheet</button>
+  <button class="btn success" id="revealP1">Reveal mark scheme</button>
+  <button class="btn secondary" id="printBtnP1" onclick="window.print()">Print</button>
+  <button class="btn danger" id="resetP1">Clear all answers</button>
+</div>
+<div class="status" id="statusP1"></div>
+<div class="selfmark" id="selfmarkRowP1"><label><strong>Teacher / self-assessed total score</strong> (out of 70)</label><input type="number" min="0" max="70" data-save="p1_score"></div>
+</section>
+
+<section class="panel hidden" id="resultsPanelP1"></section>
+
+<section class="panel" id="p1-msPanel">
+<div class="section-head"><div><h2>Mark Scheme</h2><p class="intro">Released automatically once this worksheet is submitted.</p></div><span class="tag">70 marks</span></div>
+<div class="mark-scheme" id="msP1"></div>
+</section>
+</main>
+</div>
+</div>
+
+<div id="teacherHome" class="hidden">
+<header class="hero"><div class="hero-inner">
+  <small>COMPUTER SCIENCE • WEB PAGE DESIGN</small><h1>Teacher Home</h1>
+  <p>Open class access and review each class's submissions and scores.</p>
+  <div class="topbar"><span id="teacherNickname"></span><span class="role">TEACHER</span><button id="teacherLogoutBtn">Log out</button></div>
+</div></header>
+
+<div class="page" style="grid-template-columns:1fr;max-width:1000px">
+<main>
+
+<section class="panel" id="classesPanel">
+<h2>Classes</h2>
+<p class="intro">Open a class so its students can sign in and see the worksheet. Click a class to see its own page with its students, scores and the open/close switch.</p>
+<div class="grid2" id="classesGrid" style="grid-template-columns:repeat(3,1fr)"><p class="intro">Loading…</p></div>
+</section>
+
+</main>
+</div>
+</div>
+
+<div id="classPage" class="hidden">
+<header class="hero"><div class="hero-inner">
+  <small>COMPUTER SCIENCE • WEB PAGE DESIGN</small><h1 id="classPageTitle">Class</h1>
+  <p>Only this class's students, scores and violations.</p>
+  <div class="topbar"><span id="classPageNickname"></span><span class="role">TEACHER</span><button id="classPageLogoutBtn">Log out</button></div>
+</div></header>
+
+<div class="page" style="grid-template-columns:1fr;max-width:1000px">
+<main>
+
+<section class="panel">
+<div class="section-head">
+  <div><a href="#" id="backToClasses" style="color:var(--blue2);font-weight:800;text-decoration:none">← All classes</a></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Students</h2>
+<div id="classPageBody"><p class="intro">Loading…</p></div>
+</section>
+
+<section class="panel">
+<h2>Worksheets and Mock Exams</h2>
+<p class="intro">Open a specific worksheet or mock exam for this class. Students here only see it once it's open — closing it again locks them out immediately.</p>
+<div id="classAssignmentsBody"><p class="intro">Loading…</p></div>
+</section>
+
+</main>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// ---- fill these in from Supabase > Project Settings > API ----
+const SUPABASE_URL = 'https://ybgqgtwyefshwibkgvgo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InliZ3FndHd5ZWZzaHdpYmtndmdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MjUwOTAsImV4cCI6MjEwNjQwMTA5MH0.li0Wj0Lkr7Jdc-Z45m8yVguSI-tsBD9jie58SocwKxg';
+// ----------------------------------------------------------------
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Must match server's NICKNAME_DOMAIN (server/.env) — nicknames are mapped
+// to a synthetic email because Supabase Auth requires one.
+const NICKNAME_DOMAIN = 'students.worksheet.local';
+const nicknameToEmail = (nickname) => `${String(nickname).trim().toLowerCase()}@${NICKNAME_DOMAIN}`;
+
+const REQUIRED_FIELDS = ['q1','q2','q3a','q3b','q3c','q3d','q4a','q4b','q4c','q4d','q5','q6','q7','q8','q9','q10','q11','q12','q13','q14a','q14b','q14c','q15','q16'];
+const AI_QUESTIONS = ['q1','q2','q5','q6','q7','q8','q9','q10','q11','q12','q13','q14a','q14b','q14c','q15','q16'];
+const AI_MAX_MARKS = {q1:2,q2:2,q5:4,q6:3,q7:3,q8:4,q9:3,q10:5,q11:3,q12:3,q13:4,q14a:2,q14b:2,q14c:2,q15:5,q16:5};
+const CLASSES = ['11/1','11/3','12'];
+// Must match CURRENT_ASSIGNMENT_SLUG in server/index.js — identifies which
+// assignments row this HTML page's content corresponds to.
+const CURRENT_ASSIGNMENT_SLUG = 'web-page-design-theory';
+
+// ---- Paper 1 2023 (second assignment, NIS Grade 12 CS, May 2023) ----
+const PAPER1_SLUG = 'paper-1-2023';
+const REQUIRED_FIELDS_P1 = [
+  'p1_1a','p1_1b','p1_1c','p1_1d',
+  'p1_2',
+  'p1_3a','p1_3b',
+  'p1_4a','p1_4b',
+  'p1_5a','p1_5b','p1_5c','p1_5d',
+  'p1_6a','p1_6b','p1_6c',
+  'p1_7ai','p1_7aii','p1_7b','p1_7c',
+  'p1_8a','p1_8bi','p1_8bii','p1_8biii',
+  'p1_9',
+  'p1_10ai','p1_10aii','p1_10bi','p1_10bii',
+  'p1_11a','p1_11b','p1_11c','p1_11d',
+  'p1_12a','p1_12b','p1_12c','p1_12d',
+];
+const AI_QUESTIONS_P1 = REQUIRED_FIELDS_P1;
+const AI_MAX_MARKS_P1 = {
+  p1_1a:1, p1_1b:1, p1_1c:3, p1_1d:4,
+  p1_2:2,
+  p1_3a:1, p1_3b:1,
+  p1_4a:1, p1_4b:3,
+  p1_5a:2, p1_5b:2, p1_5c:2, p1_5d:2,
+  p1_6a:2, p1_6b:2, p1_6c:2,
+  p1_7ai:1, p1_7aii:1, p1_7b:3, p1_7c:3,
+  p1_8a:2, p1_8bi:2, p1_8bii:1, p1_8biii:2,
+  p1_9:2,
+  p1_10ai:2, p1_10aii:2, p1_10bi:2, p1_10bii:2,
+  p1_11a:2, p1_11b:1, p1_11c:1, p1_11d:3,
+  p1_12a:2, p1_12b:2, p1_12c:2, p1_12d:1,
+};
+// Assignments the client actually knows how to render. "View" in the
+// teacher's Worksheets/Mock Exams table is only enabled for these.
+const IMPLEMENTED_ASSIGNMENTS = [CURRENT_ASSIGNMENT_SLUG, PAPER1_SLUG];
+
+let session = null, profile = null, submissionState = null, submissionStateP1 = null, violationCount = 0, isTeacher = false;
+
+const authScreen = document.getElementById('authScreen');
+const changePasswordScreen = document.getElementById('changePasswordScreen');
+const classLockedScreen = document.getElementById('classLockedScreen');
+const assignmentChooserScreen = document.getElementById('assignmentChooserScreen');
+const app = document.getElementById('app');
+const appPaper1 = document.getElementById('appPaper1');
+const teacherHome = document.getElementById('teacherHome');
+const toastEl = document.getElementById('toast');
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>toastEl.classList.remove('show'), 3200);
+}
+
+// ---------------- auth screen (sign-in only, no sign-up) ----------------
+const authForm = document.getElementById('authForm');
+const authSubmit = document.getElementById('authSubmit');
+const authError = document.getElementById('authError');
+
+authForm.onsubmit = async (e) => {
+  e.preventDefault();
+  authError.classList.remove('show');
+  const nickname = document.getElementById('authNickname').value.trim();
+  const password = document.getElementById('authPassword').value;
+  authSubmit.disabled = true;
+  try{
+    const { error } = await supabase.auth.signInWithPassword({ email: nicknameToEmail(nickname), password });
+    if(error) throw error;
+    await afterLogin();
+  }catch(err){
+    authError.textContent = /invalid login/i.test(err.message) ? 'Wrong nickname or password.' : (err.message || 'Something went wrong.');
+    authError.classList.add('show');
+  }finally{
+    authSubmit.disabled = false;
+  }
+};
+
+// ---------------- forced password change (first login / after reset) ----------------
+const pwForm = document.getElementById('pwForm');
+const pwError = document.getElementById('pwError');
+
+pwForm.onsubmit = async (e) => {
+  e.preventDefault();
+  pwError.classList.remove('show');
+  const pw1 = document.getElementById('pwNew').value;
+  const pw2 = document.getElementById('pwConfirm').value;
+  if(pw1 !== pw2){
+    pwError.textContent = 'Passwords do not match.';
+    pwError.classList.add('show');
+    return;
+  }
+  document.getElementById('pwSubmit').disabled = true;
+  try{
+    const { error } = await supabase.auth.updateUser({ password: pw1 });
+    if(error) throw error;
+    await apiFetch('/api/complete-password-change', { method: 'POST' });
+    profile.must_change_password = false;
+    changePasswordScreen.classList.add('hidden');
+    await routeAfterAuth();
+  }catch(err){
+    pwError.textContent = err.message || 'Could not update password.';
+    pwError.classList.add('show');
+  }finally{
+    document.getElementById('pwSubmit').disabled = false;
+  }
+};
+
+async function doLogout(){
+  await supabase.auth.signOut();
+  location.reload();
+}
+document.getElementById('logoutBtn').onclick = doLogout;
+document.getElementById('logoutBtnP1').onclick = doLogout;
+document.getElementById('teacherLogoutBtn').onclick = doLogout;
+document.getElementById('classLockedLogout').onclick = doLogout;
+document.getElementById('chooserLogout').onclick = doLogout;
+
+// ---------------- bootstrap ----------------
+init();
+
+async function init(){
+  if(SUPABASE_URL.includes('YOUR-PROJECT')){
+    authScreen.innerHTML = '<div class="authcard"><h1>Setup needed</h1><p>Fill in SUPABASE_URL and SUPABASE_ANON_KEY near the top of the script in this file (public/index.html), and make sure the Node server in /server is running with its own .env configured. See README.md.</p></div>';
+    return;
+  }
+  const { data } = await supabase.auth.getSession();
+  if(data.session){ await afterLogin(); }
+}
+
+async function apiFetch(path, opts = {}){
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  const res = await fetch(path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', ...(opts.headers||{}), Authorization: `Bearer ${token}` },
+  });
+  const json = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(json.error || `Request failed (${res.status})`);
+  return json;
+}
+
+async function afterLogin(){
+  const { data: sessData } = await supabase.auth.getSession();
+  session = sessData.session;
+  if(!session){ return; }
+
+  let { profile: prof } = await apiFetch('/api/me');
+  if(!prof){
+    // trigger may not have fired yet (race on first sign-in) — fall back once
+    await new Promise(r=>setTimeout(r, 600));
+    ({ profile: prof } = await apiFetch('/api/me'));
+  }
+  profile = prof || { role: 'student', nickname: session.user.email, must_change_password: false };
+  isTeacher = profile.role === 'teacher';
+
+  if(profile.must_change_password){
+    authScreen.classList.add('hidden');
+    changePasswordScreen.classList.remove('hidden');
+    return;
+  }
+
+  await routeAfterAuth();
+}
+
+// Single source of truth for "where does this signed-in, password-set user
+// go" — used both for a normal sign-in and right after the forced
+// password-change screen, so the class-access gate can never be bypassed.
+async function routeAfterAuth(){
+  if(isTeacher){
+    showTeacherHome();
+    return;
+  }
+
+  const { assignments } = await apiFetch('/api/class-status').catch(()=>({assignments:[]}));
+  const openOnes = (assignments||[]).filter(a => IMPLEMENTED_ASSIGNMENTS.includes(a.slug));
+
+  if(openOnes.length === 0){
+    authScreen.classList.add('hidden');
+    changePasswordScreen.classList.add('hidden');
+    assignmentChooserScreen.classList.add('hidden');
+    document.getElementById('classLockedMsg').textContent = profile.class
+      ? `Your teacher has not opened access for class ${profile.class} yet. Please wait and try again.`
+      : 'Your account has no class assigned. Ask your teacher to fix this.';
+    classLockedScreen.classList.remove('hidden');
+    return;
+  }
+
+  if(openOnes.length === 1){
+    goToAssignment(openOnes[0].slug);
+    return;
+  }
+
+  showAssignmentChooser(openOnes);
+}
+
+function goToAssignment(slug){
+  if(slug === PAPER1_SLUG) showAppPaper1();
+  else showApp();
+}
+
+function showAssignmentChooser(list){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  const el = document.getElementById('chooserList');
+  el.innerHTML = list.map(a => `<button type="button" class="btn primary" data-slug="${escapeHtml(a.slug)}">${escapeHtml(a.title)} (${a.type==='mock_exam'?'Mock exam':'Worksheet'})</button>`).join('');
+  el.querySelectorAll('[data-slug]').forEach(btn=>{
+    btn.onclick = () => { assignmentChooserScreen.classList.add('hidden'); goToAssignment(btn.dataset.slug); };
+  });
+  assignmentChooserScreen.classList.remove('hidden');
+}
+
+document.getElementById('classLockedRetry').onclick = async ()=>{
+  const { assignments } = await apiFetch('/api/class-status').catch(()=>({assignments:[]}));
+  const openOnes = (assignments||[]).filter(a => IMPLEMENTED_ASSIGNMENTS.includes(a.slug));
+  if(openOnes.length > 0){
+    classLockedScreen.classList.add('hidden');
+    await routeAfterAuth();
+  } else {
+    toast('Still closed — ask your teacher.');
+  }
+};
+
+const classPage = document.getElementById('classPage');
+
+function showTeacherHome(){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  document.getElementById('teacherNickname').textContent = profile.nickname || '';
+  document.getElementById('classPageNickname').textContent = profile.nickname || '';
+  routeTeacherHash();
+}
+
+window.addEventListener('hashchange', ()=>{ if(isTeacher) routeTeacherHash(); });
+
+function routeTeacherHash(){
+  const m = location.hash.match(/^#class\/(.+)$/);
+  if(m){
+    teacherHome.classList.add('hidden');
+    classPage.classList.remove('hidden');
+    openClassPage(decodeURIComponent(m[1]));
+  } else {
+    classPage.classList.add('hidden');
+    teacherHome.classList.remove('hidden');
+    loadClasses();
+  }
+}
+
+document.getElementById('backToClasses').onclick = (e)=>{
+  e.preventDefault();
+  location.hash = '';
+};
+document.getElementById('classPageLogoutBtn').onclick = doLogout;
+
+async function showApp(){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  app.classList.remove('hidden');
+  document.getElementById('userNickname').textContent = profile.nickname || '';
+  document.getElementById('userRole').textContent = profile.role;
+
+  attachAntiCheat();
+
+  // Students get a stripped-down view: no sidebar, no mark scheme, no
+  // objective-check/print/clear/self-score — just one Submit button that
+  // grades everything and shows results.
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('pageGrid').classList.add('single-col');
+  document.getElementById('msPanel').classList.add('hidden');
+  document.getElementById('check').classList.add('hidden');
+  document.getElementById('reveal').classList.add('hidden');
+  document.getElementById('printBtn').classList.add('hidden');
+  document.getElementById('reset').classList.add('hidden');
+  document.getElementById('selfmarkRow').classList.add('hidden');
+  document.getElementById('submitIntro').textContent = 'Once every question is answered, click Submit to get your score and feedback.';
+
+  const { submission } = await apiFetch('/api/submission-status').catch(()=>({submission:null}));
+  submissionState = submission;
+  if(submission?.submitted){
+    lockForm();
+    renderResults(submission.auto_score || 0, submission.ai_feedback || {});
+  }
+
+  initFields();
+}
+
+// ---------------- teacher: full-worksheet preview (not a submission) ----------------
+function showWorksheetPreview(){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  teacherHome.classList.add('hidden');
+  classPage.classList.add('hidden');
+  app.classList.remove('hidden');
+
+  document.getElementById('userNickname').textContent = profile.nickname || '';
+  document.getElementById('userRole').textContent = profile.role;
+  document.getElementById('backToTeacherBtn').classList.remove('hidden');
+
+  // Full view, unlike the stripped-down student one: sidebar, mark scheme,
+  // objective-check, print and reset all stay visible. There's nothing to
+  // submit here, so that button is hidden instead.
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('pageGrid').classList.remove('single-col');
+  document.getElementById('msPanel').classList.remove('hidden');
+  document.getElementById('check').classList.remove('hidden');
+  document.getElementById('reveal').classList.remove('hidden');
+  document.getElementById('printBtn').classList.remove('hidden');
+  document.getElementById('reset').classList.remove('hidden');
+  document.getElementById('selfmarkRow').classList.remove('hidden');
+  document.getElementById('submitBtn').classList.add('hidden');
+  document.getElementById('submitIntro').textContent = 'Preview mode (teacher) — nothing here is saved or submitted. Use Reveal mark scheme to check answers.';
+  document.getElementById('reveal').disabled = false;
+
+  initFields();
+}
+
+document.getElementById('backToTeacherBtn').onclick = () => {
+  app.classList.add('hidden');
+  document.getElementById('backToTeacherBtn').classList.add('hidden');
+  routeTeacherHash();
+};
+
+// ---------------- Paper 1 2023 (second assignment) ----------------
+async function showAppPaper1(){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  assignmentChooserScreen.classList.add('hidden');
+  appPaper1.classList.remove('hidden');
+  document.getElementById('userNicknameP1').textContent = profile.nickname || '';
+  document.getElementById('userRoleP1').textContent = profile.role;
+
+  attachAntiCheat();
+
+  // Same stripped-down student view as the original worksheet: no sidebar,
+  // no mark scheme, no print/clear/self-score — just Submit.
+  document.getElementById('sidebarP1').classList.add('hidden');
+  document.getElementById('pageGridP1').classList.add('single-col');
+  document.getElementById('p1-msPanel').classList.add('hidden');
+  document.getElementById('revealP1').classList.add('hidden');
+  document.getElementById('printBtnP1').classList.add('hidden');
+  document.getElementById('resetP1').classList.add('hidden');
+  document.getElementById('selfmarkRowP1').classList.add('hidden');
+  document.getElementById('submitIntroP1').textContent = 'Once every question is answered, click Submit to get your score and feedback.';
+
+  const { submission } = await apiFetch('/api/submission-status?assignmentSlug=' + PAPER1_SLUG).catch(()=>({submission:null}));
+  submissionStateP1 = submission;
+  if(submission?.submitted){
+    lockFormP1();
+    renderResultsP1(submission.auto_score || 0, submission.ai_feedback || {});
+  }
+
+  initFieldsP1();
+}
+
+function showWorksheetPreviewPaper1(){
+  authScreen.classList.add('hidden');
+  changePasswordScreen.classList.add('hidden');
+  classLockedScreen.classList.add('hidden');
+  teacherHome.classList.add('hidden');
+  classPage.classList.add('hidden');
+  appPaper1.classList.remove('hidden');
+
+  document.getElementById('userNicknameP1').textContent = profile.nickname || '';
+  document.getElementById('userRoleP1').textContent = profile.role;
+  document.getElementById('backToTeacherBtnP1').classList.remove('hidden');
+
+  document.getElementById('sidebarP1').classList.remove('hidden');
+  document.getElementById('pageGridP1').classList.remove('single-col');
+  document.getElementById('p1-msPanel').classList.remove('hidden');
+  document.getElementById('revealP1').classList.remove('hidden');
+  document.getElementById('printBtnP1').classList.remove('hidden');
+  document.getElementById('resetP1').classList.remove('hidden');
+  document.getElementById('selfmarkRowP1').classList.remove('hidden');
+  document.getElementById('submitBtnP1').classList.add('hidden');
+  document.getElementById('submitIntroP1').textContent = 'Preview mode (teacher) — nothing here is saved or submitted. Use Reveal mark scheme to check answers.';
+  document.getElementById('revealP1').disabled = false;
+
+  initFieldsP1();
+}
+
+document.getElementById('backToTeacherBtnP1').onclick = () => {
+  appPaper1.classList.add('hidden');
+  document.getElementById('backToTeacherBtnP1').classList.add('hidden');
+  routeTeacherHash();
+};
+
+// ---------------- anti-cheat (students only) ----------------
+function attachAntiCheat(){
+  const block = (e) => { e.preventDefault(); toast('Copy/paste is disabled during this assessment.'); };
+  document.addEventListener('copy', (e)=>{ block(e); logViolation('copy_attempt'); });
+  document.addEventListener('cut', (e)=>{ block(e); logViolation('cut_attempt'); });
+  document.addEventListener('paste', (e)=>{ block(e); logViolation('paste_attempt'); });
+
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden) onTabSwitch();
+  });
+  window.addEventListener('blur', ()=>{
+    // debounce: visibilitychange usually already covers this; avoid double counts
+    if(document.hidden) return;
+    onTabSwitch();
+  });
+}
+
+let lastViolationAt = 0;
+function onTabSwitch(){
+  const now = Date.now();
+  if(now - lastViolationAt < 1500) return; // debounce
+  lastViolationAt = now;
+  violationCount++;
+  logViolation('tab_switch');
+  const banner = document.getElementById('lockBanner');
+  banner.textContent = `Tab switch detected (${violationCount}). This has been recorded and is visible to your teacher.`;
+  banner.classList.add('show');
+}
+
+async function logViolation(type){
+  if(isTeacher) return;
+  try{
+    await supabase.from('violations').insert({ student_id: session.user.id, type });
+  }catch(e){ /* non-fatal */ }
+}
+
+// ---------------- fields / autosave / progress ----------------
+const P = "webTheoryAqaNis_";
+let fields = [];
+let fieldsEventsBound = false;
+
+function initFields(){
+  // Scoped to #app only — public/index.html also contains the separate
+  // #appPaper1 form, which has its own [data-save] fields and must not be
+  // counted here (or vice versa in initFieldsP1).
+  fields = [...app.querySelectorAll('[data-save]')];
+  function save(el){ localStorage.setItem(P+el.dataset.save, el.value); }
+  function progress(){
+    const af = fields.filter(x=>!['name','class','date','score'].includes(x.dataset.save));
+    const n = af.filter(x=>String(x.value).trim()!=='').length;
+    document.getElementById('answered').textContent = n;
+    document.getElementById('totalFields').textContent = af.length;
+    document.getElementById('fill').style.width = (af.length? n/af.length*100 : 0)+'%';
+  }
+  fields.forEach(el=>{
+    const stored = localStorage.getItem(P+el.dataset.save);
+    if(stored !== null && !el.value) el.value = stored;
+    if(!fieldsEventsBound){
+      el.addEventListener('input', ()=>{ save(el); progress(); });
+      el.addEventListener('change', ()=>{ save(el); progress(); });
+    }
+  });
+  fieldsEventsBound = true;
+  // restore from server-side draft/submission if present (overrides local blanks)
+  if(submissionState?.answers){
+    fields.forEach(el=>{
+      const v = submissionState.answers[el.dataset.save];
+      if(v !== undefined && v !== null && !el.value) el.value = v;
+    });
+  }
+  if(submissionState?.self_score != null){
+    const scoreEl = fields.find(x=>x.dataset.save==='score');
+    if(scoreEl && !scoreEl.value) scoreEl.value = submissionState.self_score;
+  }
+  progress();
+
+  document.getElementById('check').onclick = ()=>{
+    const a = [...document.querySelectorAll('.auto')]; let s=0;
+    a.forEach(x=>{ const ok = x.value===x.dataset.correct; if(ok) s++; x.style.borderColor = ok? '#087a53':'#b42318'; x.style.background = ok? '#edf9f4':'#fff2f0'; });
+    const st = document.getElementById('status');
+    st.className = 'status show ok';
+    st.innerHTML = `<strong>Objective score: ${s}/${a.length}</strong><br>Questions 3 and 4 only. Use "AI check" or the mark scheme for written answers.`;
+  };
+
+  document.getElementById('reveal').onclick = async ()=>{
+    const ms = document.getElementById('ms');
+    const show = !ms.classList.contains('show');
+    if(show){
+      try{
+        const { rows } = await apiFetch('/api/mark-scheme');
+        renderMarkScheme(rows);
+        ms.classList.add('show');
+        document.getElementById('reveal').textContent = 'Hide mark scheme';
+        document.getElementById('msPanel').scrollIntoView({behavior:'smooth'});
+      }catch(err){
+        toast(err.message);
+      }
+    } else {
+      ms.classList.remove('show');
+      document.getElementById('reveal').textContent = 'Reveal mark scheme';
+    }
+  };
+
+  document.getElementById('submitBtn').onclick = async ()=>{
+    if(isTeacher){ toast('Teacher accounts do not submit a worksheet.'); return; }
+    const answers = {};
+    fields.forEach(x=>{ answers[x.dataset.save] = x.value; });
+    const missing = REQUIRED_FIELDS.filter(id => !String(answers[id]||'').trim());
+    const st = document.getElementById('status');
+    if(missing.length){
+      st.className = 'status show err';
+      st.innerHTML = `<strong>Not ready to submit.</strong><br>Answer all questions first (${missing.length} remaining).`;
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    const auto = [...document.querySelectorAll('.auto')].filter(x=>x.value===x.dataset.correct).length;
+
+    const aiResults = {};
+    for(let i=0;i<AI_QUESTIONS.length;i++){
+      const id = AI_QUESTIONS[i];
+      submitBtn.textContent = `Grading… (${i+1}/${AI_QUESTIONS.length})`;
+      st.className = 'status show';
+      st.innerHTML = `Grading your answers with AI — question ${i+1} of ${AI_QUESTIONS.length}…`;
+      try{
+        aiResults[id] = await apiFetch('/api/ai-check', { method:'POST', body: JSON.stringify({ questionId:id, answer: answers[id] }) });
+      }catch(err){
+        aiResults[id] = { error: err.message };
+      }
+    }
+
+    try{
+      await apiFetch('/api/submit', { method:'POST', body: JSON.stringify({ answers, autoScore: auto, selfScore: null }) });
+      st.className = 'status';
+      st.innerHTML = '';
+      lockForm();
+      renderResults(auto, aiResults);
+    }catch(err){
+      st.className = 'status show err';
+      st.innerHTML = `<strong>Could not submit.</strong> ${err.message}`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit worksheet';
+    }
+  };
+
+  document.getElementById('reset').onclick = ()=>{
+    if(!confirm('Clear all saved answers?')) return;
+    fields.forEach(x=>{ localStorage.removeItem(P+x.dataset.save); x.value=''; });
+    document.querySelectorAll('.auto').forEach(x=>{ x.style.borderColor=''; x.style.background=''; });
+    document.getElementById('status').className = 'status';
+    progress();
+  };
+
+  window.addEventListener('beforeunload', ()=>fields.forEach(save));
+}
+
+function lockForm(){
+  fields.forEach(x=>{
+    if(['name','class','date','score'].includes(x.dataset.save)) return;
+    x.disabled = true;
+  });
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').textContent = 'Submitted ✓';
+}
+
+function renderResults(auto, aiResults){
+  const aiTotal = Object.values(aiResults).reduce((sum,r)=> sum + (Number(r.marksAwarded)||0), 0);
+  const total = auto + aiTotal;
+  const rows = AI_QUESTIONS.map(id=>{
+    const r = aiResults[id] || {};
+    const max = AI_MAX_MARKS[id] ?? r.maxMarks ?? '?';
+    if(r.error){
+      return `<div class="ms-q"><h3>${id.toUpperCase()}</h3><p>Could not grade this answer: ${escapeHtml(r.error)}</p></div>`;
+    }
+    return `<div class="ms-q"><h3>${id.toUpperCase()} — ${r.marksAwarded ?? '?'} / ${max}</h3><p>${escapeHtml(r.feedback||'')}</p></div>`;
+  }).join('');
+
+  const panel = document.getElementById('resultsPanel');
+  panel.classList.remove('hidden');
+  panel.innerHTML = `
+    <div class="section-head"><div><h2>Your Results</h2><p class="intro">Automated marking — your teacher may review and adjust this.</p></div><span class="result-total">${total} / 60</span></div>
+    <div class="ms-q"><h3>Questions 3 &amp; 4 (objective)</h3><p>${auto} / 8 correct</p></div>
+    ${rows}
+  `;
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function renderMarkScheme(rows){
+  const ms = document.getElementById('ms');
+  ms.innerHTML = rows.map(r => `
+    <div class="ms-q">
+      <h3>${r.id.toUpperCase()} — ${escapeHtml(r.question)} [${r.max_marks}]</h3>
+      ${r.model_answer ? `<div class="model">${escapeHtml(r.model_answer)}</div>` : ''}
+      <ul>${(r.points||[]).map(p=>`<li>${escapeHtml(p)}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+// ---------------- Paper 1 2023: fields / autosave / progress ----------------
+const P1 = "paper1_2023_";
+let fieldsP1 = [];
+let fieldsEventsBoundP1 = false;
+
+function initFieldsP1(){
+  // Scoped to #appPaper1 only — see the matching comment in initFields().
+  fieldsP1 = [...appPaper1.querySelectorAll('[data-save]')];
+  function save(el){ localStorage.setItem(P1+el.dataset.save, el.value); }
+  function progress(){
+    const af = fieldsP1.filter(x=>!['p1_name','p1_class','p1_date','p1_score'].includes(x.dataset.save));
+    const n = af.filter(x=>String(x.value).trim()!=='').length;
+    document.getElementById('answeredP1').textContent = n;
+    document.getElementById('totalFieldsP1').textContent = af.length;
+    document.getElementById('fillP1').style.width = (af.length? n/af.length*100 : 0)+'%';
+  }
+  fieldsP1.forEach(el=>{
+    const stored = localStorage.getItem(P1+el.dataset.save);
+    if(stored !== null && !el.value) el.value = stored;
+    if(!fieldsEventsBoundP1){
+      el.addEventListener('input', ()=>{ save(el); progress(); });
+      el.addEventListener('change', ()=>{ save(el); progress(); });
+    }
+  });
+  fieldsEventsBoundP1 = true;
+  if(submissionStateP1?.answers){
+    fieldsP1.forEach(el=>{
+      const v = submissionStateP1.answers[el.dataset.save];
+      if(v !== undefined && v !== null && !el.value) el.value = v;
+    });
+  }
+  if(submissionStateP1?.self_score != null){
+    const scoreEl = fieldsP1.find(x=>x.dataset.save==='p1_score');
+    if(scoreEl && !scoreEl.value) scoreEl.value = submissionStateP1.self_score;
+  }
+  progress();
+
+  document.getElementById('revealP1').onclick = async ()=>{
+    const ms = document.getElementById('msP1');
+    const show = !ms.classList.contains('show');
+    if(show){
+      try{
+        const { rows } = await apiFetch('/api/mark-scheme?assignmentSlug=' + PAPER1_SLUG);
+        renderMarkSchemeP1(rows);
+        ms.classList.add('show');
+        document.getElementById('revealP1').textContent = 'Hide mark scheme';
+        document.getElementById('p1-msPanel').scrollIntoView({behavior:'smooth'});
+      }catch(err){
+        toast(err.message);
+      }
+    } else {
+      ms.classList.remove('show');
+      document.getElementById('revealP1').textContent = 'Reveal mark scheme';
+    }
+  };
+
+  document.getElementById('submitBtnP1').onclick = async ()=>{
+    if(isTeacher){ toast('Teacher accounts do not submit a worksheet.'); return; }
+    const answers = {};
+    fieldsP1.forEach(x=>{ answers[x.dataset.save] = x.value; });
+    const missing = REQUIRED_FIELDS_P1.filter(id => !String(answers[id]||'').trim());
+    const st = document.getElementById('statusP1');
+    if(missing.length){
+      st.className = 'status show err';
+      st.innerHTML = `<strong>Not ready to submit.</strong><br>Answer all questions first (${missing.length} remaining).`;
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitBtnP1');
+    submitBtn.disabled = true;
+
+    const aiResults = {};
+    for(let i=0;i<AI_QUESTIONS_P1.length;i++){
+      const id = AI_QUESTIONS_P1[i];
+      submitBtn.textContent = `Grading… (${i+1}/${AI_QUESTIONS_P1.length})`;
+      st.className = 'status show';
+      st.innerHTML = `Grading your answers with AI — question ${i+1} of ${AI_QUESTIONS_P1.length}…`;
+      try{
+        aiResults[id] = await apiFetch('/api/ai-check', { method:'POST', body: JSON.stringify({ questionId:id, answer: answers[id], assignmentSlug: PAPER1_SLUG }) });
+      }catch(err){
+        aiResults[id] = { error: err.message };
+      }
+    }
+
+    try{
+      await apiFetch('/api/submit', { method:'POST', body: JSON.stringify({ answers, autoScore: 0, selfScore: null, assignmentSlug: PAPER1_SLUG }) });
+      st.className = 'status';
+      st.innerHTML = '';
+      lockFormP1();
+      renderResultsP1(0, aiResults);
+    }catch(err){
+      st.className = 'status show err';
+      st.innerHTML = `<strong>Could not submit.</strong> ${err.message}`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit worksheet';
+    }
+  };
+
+  document.getElementById('resetP1').onclick = ()=>{
+    if(!confirm('Clear all saved answers?')) return;
+    fieldsP1.forEach(x=>{ localStorage.removeItem(P1+x.dataset.save); x.value=''; });
+    document.getElementById('statusP1').className = 'status';
+    progress();
+  };
+
+  window.addEventListener('beforeunload', ()=>fieldsP1.forEach(save));
+}
+
+function lockFormP1(){
+  fieldsP1.forEach(x=>{
+    if(['p1_name','p1_class','p1_date','p1_score'].includes(x.dataset.save)) return;
+    x.disabled = true;
+  });
+  document.getElementById('submitBtnP1').disabled = true;
+  document.getElementById('submitBtnP1').textContent = 'Submitted ✓';
+}
+
+function renderResultsP1(auto, aiResults){
+  const total = Object.values(aiResults).reduce((sum,r)=> sum + (Number(r.marksAwarded)||0), 0);
+  const rows = AI_QUESTIONS_P1.map(id=>{
+    const r = aiResults[id] || {};
+    const max = AI_MAX_MARKS_P1[id] ?? r.maxMarks ?? '?';
+    if(r.error){
+      return `<div class="ms-q"><h3>${id.toUpperCase()}</h3><p>Could not grade this answer: ${escapeHtml(r.error)}</p></div>`;
+    }
+    return `<div class="ms-q"><h3>${id.toUpperCase()} — ${r.marksAwarded ?? '?'} / ${max}</h3><p>${escapeHtml(r.feedback||'')}</p></div>`;
+  }).join('');
+
+  const panel = document.getElementById('resultsPanelP1');
+  panel.classList.remove('hidden');
+  panel.innerHTML = `
+    <div class="section-head"><div><h2>Your Results</h2><p class="intro">Automated marking — your teacher may review and adjust this.</p></div><span class="result-total">${total} / 70</span></div>
+    ${rows}
+  `;
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function renderMarkSchemeP1(rows){
+  const ms = document.getElementById('msP1');
+  ms.innerHTML = rows.map(r => `
+    <div class="ms-q">
+      <h3>${r.id.toUpperCase()} — ${escapeHtml(r.question)} [${r.max_marks}]</h3>
+      ${r.model_answer ? `<div class="model">${escapeHtml(r.model_answer)}</div>` : ''}
+      <ul>${(r.points||[]).map(p=>`<li>${escapeHtml(p)}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ---------------- teacher: classes list (links to each class's own page) ----------------
+async function loadClasses(){
+  const grid = document.getElementById('classesGrid');
+  try{
+    const { classes } = await apiFetch('/api/admin/classes');
+    grid.innerHTML = classes.map(c => `
+      <a href="#class/${encodeURIComponent(c.name)}" class="mini" style="display:block;text-decoration:none;color:inherit">
+        <label>${escapeHtml(c.name)}</label>
+      </a>`).join('');
+  }catch(err){
+    grid.innerHTML = `<p class="intro">Could not load classes: ${escapeHtml(err.message)}</p>`;
+  }
+}
+
+// ---------------- teacher: one class's own page ----------------
+async function openClassPage(name){
+  document.getElementById('classPageTitle').textContent = 'Class ' + name;
+  document.getElementById('classPageBody').innerHTML = '<p class="intro">Loading…</p>';
+  document.getElementById('classAssignmentsBody').innerHTML = '<p class="intro">Loading…</p>';
+  loadClassStudents(name);
+  loadClassAssignments(name);
+}
+
+async function loadClassAssignments(name){
+  const body = document.getElementById('classAssignmentsBody');
+  try{
+    const { assignments } = await apiFetch('/api/admin/class-assignments?className=' + encodeURIComponent(name));
+    const rows = assignments.map(a => `
+      <tr>
+        <td>${escapeHtml(a.title)}</td>
+        <td>${a.type === 'mock_exam' ? 'Mock exam' : 'Worksheet'}</td>
+        <td><span class="dash-badge ${a.is_open ? '' : 'warn'}">${a.is_open ? 'Open' : 'Closed'}</span></td>
+        <td>
+          <button type="button" class="viewbtn" data-assignment="${a.id}" data-open="${a.is_open ? '0' : '1'}">${a.is_open ? 'Close' : 'Open'}</button>
+          ${IMPLEMENTED_ASSIGNMENTS.includes(a.slug)
+            ? `<button type="button" class="viewbtn" data-view="${escapeHtml(a.slug)}" style="margin-left:6px">View</button>`
+            : `<button type="button" class="viewbtn" disabled title="No content yet" style="margin-left:6px">View</button>`}
+        </td>
+      </tr>`).join('');
+
+    body.innerHTML = `<table class="dash-table"><thead><tr>
+      <th>Title</th><th>Type</th><th>Status</th><th></th>
+    </tr></thead><tbody>${rows || '<tr><td colspan="4">No worksheets or mock exams yet.</td></tr>'}</tbody></table>`;
+
+    body.querySelectorAll('[data-assignment]').forEach(btn=>{
+      btn.onclick = async ()=>{
+        btn.disabled = true;
+        try{
+          await apiFetch('/api/admin/class-assignments/toggle', { method:'POST', body: JSON.stringify({ className: name, assignmentId: btn.dataset.assignment, open: btn.dataset.open === '1' }) });
+          loadClassAssignments(name);
+        }catch(err){
+          toast(err.message);
+          btn.disabled = false;
+        }
+      };
+    });
+
+    body.querySelectorAll('[data-view]').forEach(btn=>{
+      btn.onclick = () => {
+        if(btn.dataset.view === PAPER1_SLUG) showWorksheetPreviewPaper1();
+        else showWorksheetPreview();
+      };
+    });
+  }catch(err){
+    body.innerHTML = `<p class="intro">Could not load worksheets: ${escapeHtml(err.message)}</p>`;
+  }
+}
+
+async function loadClassStudents(name){
+  const body = document.getElementById('classPageBody');
+  try{
+    const [{ profiles }, { assignments }, { data: submissions }, { data: violations }] = await Promise.all([
+      apiFetch('/api/admin/students'),
+      apiFetch('/api/admin/class-assignments?className=' + encodeURIComponent(name)),
+      supabase.from('submissions').select('*'),
+      supabase.from('violations').select('student_id,type'),
+    ]);
+    const violationCounts = {};
+    (violations||[]).forEach(v=>{ violationCounts[v.student_id] = (violationCounts[v.student_id]||0)+1; });
+
+    const students = (profiles||[]).filter(p=>p.role==='student' && p.class===name);
+    // One status/score column per assignment — a student can have a
+    // separate submission row for each (submissions is keyed by
+    // student_id + assignment_id now, not student_id alone).
+    const rows = students.map(s=>{
+      const vCount = violationCounts[s.id]||0;
+      const perAssignment = assignments.map(a=>{
+        const sub = (submissions||[]).find(x=>x.student_id===s.id && x.assignment_id===a.id);
+        if(!sub?.submitted) return `<td><span class="dash-badge warn">${sub ? 'In progress' : 'Not started'}</span></td>`;
+        const aiTotal = sub.ai_feedback ? Object.values(sub.ai_feedback).reduce((acc,f)=>acc+(Number(f.marksAwarded)||0),0) : 0;
+        const total = (sub.auto_score||0) + aiTotal;
+        return `<td><span class="dash-badge">Submitted</span> ${total} pts</td>`;
+      }).join('');
+      return `<tr>
+        <td>${escapeHtml(s.full_name||s.nickname||s.id)}</td>
+        <td>${escapeHtml(s.nickname||'')}</td>
+        ${perAssignment}
+        <td>${vCount ? `<span class="dash-badge warn">${vCount}</span>` : '0'}</td>
+        <td><button type="button" class="viewbtn" data-reset="${s.id}" data-nickname="${escapeHtml(s.nickname||'')}">Reset password</button></td>
+      </tr>`;
+    }).join('');
+
+    const headCols = assignments.map(a=>`<th>${escapeHtml(a.title)}</th>`).join('');
+    body.innerHTML = `<table class="dash-table"><thead><tr>
+      <th>Name</th><th>Nickname</th>${headCols}<th>Violations</th><th></th>
+    </tr></thead><tbody>${rows || `<tr><td colspan="${4+assignments.length}">No students in this class yet.</td></tr>`}</tbody></table>`;
+
+    body.querySelectorAll('[data-reset]').forEach(btn=>{
+      btn.onclick = async ()=>{
+        if(!confirm(`Reset ${btn.dataset.nickname}'s password? They will need to set a new one at next sign-in.`)) return;
+        try{
+          const r = await apiFetch('/api/admin/reset-password', { method:'POST', body: JSON.stringify({ userId: btn.dataset.reset }) });
+          toast(`Password for ${btn.dataset.nickname} reset to "${r.tempPassword}".`);
+        }catch(err){ toast(err.message); }
+      };
+    });
+  }catch(err){
+    body.innerHTML = `<p class="intro">Could not load students: ${escapeHtml(err.message)}</p>`;
+  }
+}
+</script>
+</body>
+</html>
