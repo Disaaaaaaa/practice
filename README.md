@@ -80,5 +80,19 @@ This prints a temporary password. Open `http://localhost:3000`, sign in with tha
 ## Notes / things to decide as you go
 
 - **Tab-switch policy**: currently it only warns and logs — it does not lock the worksheet. If you want a hard lock after N switches, that's a small change in the `onTabSwitch()` function in `public/index.html`.
-- **Deploying for real use**: this is set up for local use (`localhost:3000`). To use it with an actual class, deploy `server/` somewhere (Render, Fly.io, a VPS, etc.) with the same `.env` variables, and point students at that URL instead of localhost.
 - **Migrating from an older copy of this project**: if your database still has the old email/password sign-up schema, run the migration block near the bottom of `supabase/setup.sql` (adds `nickname`/`must_change_password`, drops the old self-update policy).
+
+## Deploying to Vercel
+
+The repo is already set up for it: `api/index.js` wraps the same Express app as a serverless function, and `vercel.json` routes `/api/*` there and everything else to `public/index.html`.
+
+1. Import the GitHub repo into [vercel.com](https://vercel.com) (New Project → pick the repo). No build command needed — it's picked up as-is.
+2. In **Project Settings → Environment Variables**, add the same values that are in `server/.env` locally:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `OPENAI_API_KEY`
+   - `NICKNAME_DOMAIN` (e.g. `students.worksheet.local`)
+   - `DEFAULT_STUDENT_PASSWORD` (e.g. `111111`)
+3. Deploy. Students use the Vercel URL instead of `localhost:3000`.
+4. `server/scripts/create-user.js` (bootstrapping the teacher, and any CLI-based account creation) only works locally against `server/.env` — it doesn't run on Vercel. Either run it locally pointed at the same Supabase project, or use the Teacher Home page's UI once you have a teacher account.
+5. The two local `.pdf` source files for Paper 1 2023 are gitignored (copyrighted NIS exam materials) and were never pushed — nothing to do there, the worksheet content itself already lives in `supabase/setup.sql`.

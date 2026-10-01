@@ -466,6 +466,13 @@ const publicDir = path.join(__dirname, '..', 'public');
 app.use(express.static(publicDir));
 app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'index.html')));
 
-app.listen(PORT, () => {
-  console.log(`Worksheet server running at http://localhost:${PORT}`);
-});
+// Only listen on a port for local dev (`npm start`). On Vercel this file is
+// required by api/index.js and invoked per-request as a serverless
+// function instead — it must not call app.listen() there.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Worksheet server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
