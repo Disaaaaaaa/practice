@@ -334,6 +334,19 @@
   }
   .task-progress .bar{flex:1;height:8px;background:#e7ecf6;border-radius:99px;overflow:hidden;margin:0 12px}
   .task-progress .bar>span{display:block;height:100%;background:var(--blue);width:0%}
+
+  /* ---- anti-cheat: tab-switch banner + copy/paste toast ---- */
+  .practice-lockbanner{
+    display:none;background:var(--amber2);border:1px solid #f3cf8e;color:var(--amber);
+    padding:10px 14px;border-radius:12px;margin:0 0 14px;font-size:14px;font-weight:700;
+  }
+  .practice-lockbanner.show{display:block}
+  .practice-toast{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
+    background:#182033;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:700;
+    box-shadow:var(--shadow);transition:transform .25s ease;z-index:999;
+  }
+  .practice-toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 
@@ -353,6 +366,8 @@
     <span id="practiceRole" style="background:#eaf0ff;color:#2446a8;padding:3px 10px;border-radius:999px;font-weight:700;font-size:12px;text-transform:uppercase"></span>
     <button type="button" id="practiceLogoutBtn" style="background:#2357d9;color:#fff;border:0;border-radius:8px;padding:6px 13px;font-weight:700;cursor:pointer">Log out</button>
   </div>
+
+  <div id="practiceLockBanner" class="practice-lockbanner"></div>
 
   <header class="hero" id="top">
     <div class="eyebrow">Computer Science • A Level / CIE / NIS Theory Pack</div>
@@ -1751,6 +1766,8 @@ Answer: −17</div>
     binary arithmetic conventions. This is a teacher-created resource, not an official Cambridge publication.
   </footer>
 </div>
+
+<div id="practiceToast" class="practice-toast"></div>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -1766,6 +1783,8 @@ const gateLogoutBtn = document.getElementById('gateLogoutBtn');
 const pageContent = document.getElementById('pageContent');
 
 let accessToken = null;
+let currentRole = null;
+let studentId = null;
 
 async function authFetch(path, opts = {}){
   return fetch(path, {
@@ -1788,6 +1807,7 @@ async function checkAccess(){
     return false;
   }
   accessToken = data.session.access_token;
+  studentId = data.session.user.id;
 
   const meRes = await authFetch('/api/me');
   const me = await meRes.json().catch(()=>({}));
@@ -1797,6 +1817,7 @@ async function checkAccess(){
     gateLogoutBtn.style.display = 'inline-block';
     return false;
   }
+  currentRole = profile.role;
 
   if(profile.role === 'teacher'){
     document.getElementById('practiceNickname').textContent = profile.nickname || '';
@@ -1820,11 +1841,60 @@ async function checkAccess(){
   return true;
 }
 
+// ---------------- anti-cheat (students only, same rules as the main worksheet) ----------------
+function toast(msg){
+  const el = document.getElementById('practiceToast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>el.classList.remove('show'), 3200);
+}
+
+let violationCount = 0;
+let lastViolationAt = 0;
+
+async function logViolation(type){
+  if(currentRole !== 'student' || !studentId) return;
+  try{
+    await supabase.from('violations').insert({ student_id: studentId, type });
+  }catch(e){ /* non-fatal */ }
+}
+
+function onTabSwitch(){
+  const now = Date.now();
+  if(now - lastViolationAt < 1500) return; // debounce
+  lastViolationAt = now;
+  violationCount++;
+  logViolation('tab_switch');
+  const banner = document.getElementById('practiceLockBanner');
+  if(banner){
+    banner.textContent = `Tab switch detected (${violationCount}). This has been recorded and is visible to your teacher.`;
+    banner.classList.add('show');
+  }
+}
+
+function attachAntiCheat(){
+  const block = (e) => { e.preventDefault(); toast('Copy/paste is disabled during this practice session.'); };
+  document.addEventListener('copy', (e)=>{ block(e); logViolation('copy_attempt'); });
+  document.addEventListener('cut', (e)=>{ block(e); logViolation('cut_attempt'); });
+  document.addEventListener('paste', (e)=>{ block(e); logViolation('paste_attempt'); });
+
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden) onTabSwitch();
+  });
+  window.addEventListener('blur', ()=>{
+    if(document.hidden) return;
+    onTabSwitch();
+  });
+}
+
 checkAccess().then(ok=>{
   if(ok){
     gateScreen.style.display = 'none';
     pageContent.style.display = '';
     document.getElementById('practiceLogoutBtn').onclick = doLogout;
+    if(currentRole === 'student') attachAntiCheat();
   }
 }).catch(err=>{
   gateMessage.textContent = 'Could not check access: ' + err.message;
