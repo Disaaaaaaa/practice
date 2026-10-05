@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Arithmetic & Two's Complement — A Level / CIE / NIS Theory Pack</title>
+<style>
+  :root{
+    --bg:#f6f8fc;
+    --paper:#ffffff;
+    --text:#182033;
+    --muted:#5f6b82;
+    --line:#dfe5ef;
+    --blue:#2357d9;
+    --blue2:#eaf0ff;
+    --green:#18794e;
+    --green2:#eaf8f1;
+    --amber:#9a6700;
+    --amber2:#fff6df;
+    --red:#b42318;
+    --red2:#fff0ef;
+    --code:#111827;
+    --shadow:0 10px 30px rgba(27,39,70,.08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.62;
+  }
+  .page{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px 24px 70px;
+  }
+  .hero{
+    background:linear-gradient(135deg,#fff 0%,#eef3ff 100%);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:38px;
+    box-shadow:var(--shadow);
+    margin-bottom:24px;
+  }
+  .eyebrow{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:700;
+    color:var(--blue);
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:clamp(32px,5vw,54px);
+    line-height:1.05;
+    margin:0 0 16px;
+    letter-spacing:-.03em;
+  }
+  h2{
+    font-size:30px;
+    line-height:1.2;
+    margin:0 0 16px;
+    letter-spacing:-.015em;
+  }
+  h3{
+    font-size:21px;
+    margin:26px 0 10px;
+  }
+  h4{
+    margin:18px 0 8px;
+    font-size:17px;
+  }
+  p{margin:10px 0}
+  .lead{
+    font-size:18px;
+    color:var(--muted);
+    max-width:820px;
+  }
+  .objectives{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:24px;
+  }
+  .objective{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+  }
+  .objective b{
+    color:var(--blue);
+    display:block;
+    margin-bottom:5px;
+  }
+  nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    display:flex;
+    gap:8px;
+    overflow:auto;
+    padding:11px 0;
+    background:rgba(246,248,252,.94);
+    backdrop-filter:blur(12px);
+    margin-bottom:6px;
+  }
+  nav a{
+    flex:0 0 auto;
+    text-decoration:none;
+    color:var(--text);
+    background:white;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 13px;
+    font-size:14px;
+    font-weight:600;
+  }
+  nav a:hover{border-color:#9fb4ef;color:var(--blue)}
+  section{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px;
+    margin:18px 0;
+    box-shadow:0 6px 18px rgba(27,39,70,.04);
+  }
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .card{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    background:#fff;
+  }
+  .rule{
+    background:var(--blue2);
+    border-left:5px solid var(--blue);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+  .tip{
+    background:var(--green2);
+    border-left:5px solid var(--green);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+  .warn{
+    background:var(--amber2);
+    border-left:5px solid #d59b00;
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+  .danger{
+    background:var(--red2);
+    border-left:5px solid var(--red);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+  .binary{
+    font-family:"Courier New", monospace;
+    font-size:19px;
+    line-height:1.45;
+    white-space:pre;
+    overflow:auto;
+    color:var(--code);
+    background:#f8fafc;
+    border:1px solid var(--line);
+    padding:15px 18px;
+    border-radius:12px;
+    margin:12px 0;
+  }
+  .formula{
+    font-family:"Courier New", monospace;
+    font-weight:700;
+    color:var(--blue);
+  }
+  .bits{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin:12px 0;
+  }
+  .bit{
+    min-width:42px;
+    text-align:center;
+    padding:8px 10px;
+    border:1px solid #b8c6e8;
+    border-radius:8px;
+    background:#f8faff;
+    font-family:"Courier New", monospace;
+    font-weight:700;
+  }
+  .bit.sign{background:#fff0ef;border-color:#efaaa5}
+  .steps{
+    counter-reset:step;
+    list-style:none;
+    padding:0;
+    margin:14px 0;
+  }
+  .steps li{
+    counter-increment:step;
+    margin:10px 0;
+    padding:12px 14px 12px 52px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    position:relative;
+  }
+  .steps li::before{
+    content:counter(step);
+    position:absolute;
+    left:13px; top:10px;
+    width:27px; height:27px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    display:grid; place-items:center;
+    font-weight:700;
+  }
+  .mini-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:15px;
+  }
+  .mini-table th,.mini-table td{
+    border:1px solid var(--line);
+    padding:10px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+  .mini-table th{background:#f3f6fb}
+  .mark{
+    display:inline-block;
+    background:#edf2ff;
+    color:#2446a8;
+    border:1px solid #cad7ff;
+    border-radius:999px;
+    padding:3px 9px;
+    font-size:12px;
+    font-weight:700;
+    margin-left:6px;
+  }
+  details{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    margin:10px 0;
+    background:#fff;
+  }
+  summary{cursor:pointer;font-weight:700}
+  .question{
+    margin:16px 0;
+    padding:16px;
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .answer{
+    margin-top:10px;
+    padding:12px;
+    background:#f7f9fc;
+    border-radius:10px;
+  }
+  .footer{
+    color:var(--muted);
+    text-align:center;
+    padding:20px 0;
+    font-size:13px;
+  }
+  .examline{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin:8px 0;
+  }
+  .examline strong{
+    min-width:90px;
+    color:var(--blue);
+  }
+  code{
+    font-family:"Courier New", monospace;
+    background:#f2f4f7;
+    padding:2px 5px;
+    border-radius:5px;
+  }
+  @media (max-width:780px){
+    .objectives,.grid2{grid-template-columns:1fr}
+    .hero,section{padding:22px}
+    h1{font-size:38px}
+  }
+  @media print{
+    body{background:#fff}
+    nav{display:none}
+    .page{max-width:none;padding:0}
+    .hero,section{box-shadow:none;break-inside:avoid}
+    details{break-inside:avoid}
+    details:not([open]) > *:not(summary){display:block}
+    .no-print{display:none!important}
+  }
+
+  /* ---- 100 practice tasks (AI-checked) ---- */
+  .task{break-inside:avoid}
+  .task-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+  .task-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .task-input{
+    flex:1;min-width:160px;padding:9px 11px;
+    border:1px solid #b8c6e8;border-radius:8px;
+    font-family:"Courier New",monospace;font-size:15px;
+  }
+  .task-input:disabled{background:#f3f6fb;color:#5f6b82}
+  .task-check-btn{
+    background:var(--blue);color:#fff;border:0;border-radius:8px;
+    padding:9px 16px;font-weight:700;cursor:pointer;
+  }
+  .task-check-btn:disabled{opacity:.55;cursor:not-allowed}
+  .task-feedback{margin-top:9px;font-size:14px;display:none;padding:10px 12px;border-radius:10px}
+  .task-feedback.show{display:block}
+  .task-feedback.correct{background:var(--green2);border-left:5px solid var(--green);color:var(--green)}
+  .task-feedback.hint{background:var(--amber2);border-left:5px solid #d59b00;color:#6b4e00}
+  .task-feedback.pending{background:#f3f6fb;color:var(--muted)}
+  .task-progress{
+    position:sticky;top:52px;z-index:9;background:#fff;border:1px solid var(--line);
+    border-radius:12px;padding:10px 14px;margin:10px 0 18px;font-size:14px;
+    display:flex;justify-content:space-between;gap:12px;align-items:center;
+  }
+  .task-progress .bar{flex:1;height:8px;background:#e7ecf6;border-radius:99px;overflow:hidden;margin:0 12px}
+  .task-progress .bar>span{display:block;height:100%;background:var(--blue);width:0%}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <header class="hero" id="top">
+    <div class="eyebrow">Computer Science • A Level / CIE / NIS Theory Pack</div>
+    <h1>Binary Arithmetic & Two’s Complement</h1>
+    <p class="lead">
+      A complete theory pack for binary addition, binary multiplication, signed integer representation
+      using two’s complement, and binary subtraction using two’s complement.
+    </p>
+
+    <div class="objectives">
+      <div class="objective">
+        <b>12.1.1.3</b>
+        Perform arithmetic operations of <strong>addition and multiplication</strong> on binary numbers.
+      </div>
+      <div class="objective">
+        <b>12.1.1.4</b>
+        Represent a <strong>positive or negative integer</strong> in two’s complement form.
+      </div>
+      <div class="objective">
+        <b>12.1.1.5</b>
+        Perform <strong>binary subtraction</strong> using two’s complement.
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#foundations">Foundations</a>
+    <a href="#addition">Addition</a>
+    <a href="#multiplication">Multiplication</a>
+    <a href="#twos">Two’s Complement</a>
+    <a href="#subtraction">Subtraction</a>
+    <a href="#overflow">Overflow</a>
+    <a href="#exam">Exam Technique</a>
+    <a href="#check">Checkpoint</a>
+    <a href="#practice100">100 Practice Tasks</a>
+  </nav>
+
+  <section id="foundations">
+    <h2>1. Binary foundations</h2>
+    <p>
+      Binary is a <strong>base-2</strong> number system. It uses only the digits <strong>0</strong> and
+      <strong>1</strong>. Each position has a place value that is a power of 2.
+    </p>
+
+    <div class="bits">
+      <span class="bit">128</span><span class="bit">64</span><span class="bit">32</span><span class="bit">16</span>
+      <span class="bit">8</span><span class="bit">4</span><span class="bit">2</span><span class="bit">1</span>
+    </div>
+
+    <div class="binary">Binary:  0 1 0 1 1 0 1 1
+Values:  128 64 32 16  8  4  2  1
+
+= 64 + 16 + 8 + 2 + 1
+= 91₁₀</div>
+
+    <div class="rule">
+      <strong>Fixed bit-width matters.</strong> In exam questions, a value may be specified as 4-bit, 8-bit,
+      12-bit, 16-bit, etc. Keep the required number of bits throughout the calculation.
+    </div>
+
+    <h3>Unsigned vs signed binary</h3>
+    <div class="grid2">
+      <div class="card">
+        <h4>Unsigned</h4>
+        <p>All bits contribute to the magnitude. An 8-bit unsigned integer has the range:</p>
+        <p class="formula">0 to 255</p>
+      </div>
+      <div class="card">
+        <h4>Signed using two’s complement</h4>
+        <p>The leftmost bit contributes to the sign and the representation has a different range:</p>
+        <p class="formula">−128 to +127</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="addition">
+    <h2>2. Binary addition</h2>
+
+    <p>Binary addition follows four basic rules.</p>
+
+    <table class="mini-table">
+      <thead>
+        <tr><th>Calculation</th><th>Result bit</th><th>Carry</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>0 + 0</code></td><td>0</td><td>0</td></tr>
+        <tr><td><code>0 + 1</code></td><td>1</td><td>0</td></tr>
+        <tr><td><code>1 + 0</code></td><td>1</td><td>0</td></tr>
+        <tr><td><code>1 + 1</code></td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+
+    <div class="rule">
+      In binary, <code>1 + 1 = 10₂</code>. Write <strong>0</strong> in the current column and carry
+      <strong>1</strong> to the next column.
+    </div>
+
+    <h3>Worked example 1: simple addition</h3>
+    <p>Calculate <code>1011₂ + 0110₂</code>.</p>
+
+    <div class="binary">   1 1 1       ← carries
+   1 0 1 1
+ + 0 1 1 0
+-----------
+ 1 0 0 0 1</div>
+
+    <p><strong>Answer:</strong> <code>10001₂</code>. Check: 11 + 6 = 17.</p>
+
+    <h3>Worked example 2: 8-bit addition</h3>
+    <p>Calculate <code>01011011 + 00110101</code>.</p>
+
+    <div class="binary">  01011011   (91)
++ 00110101   (53)
+----------
+  10010000   (144)</div>
+
+    <p>The answer fits within 8 unsigned bits.</p>
+
+    <div class="tip">
+      <strong>Exam check:</strong> convert the final result to denary when time allows. A quick denary
+      verification catches many carrying errors.
+    </div>
+
+    <h3>Adding three 1s</h3>
+    <p>
+      When two input bits and a carry are all 1:
+      <code>1 + 1 + 1 = 11₂</code>. Write <strong>1</strong> and carry <strong>1</strong>.
+    </p>
+  </section>
+
+  <section id="multiplication">
+    <h2>3. Binary multiplication</h2>
+    <p>
+      Binary multiplication is similar to long multiplication in denary, but each multiplier bit can only be
+      0 or 1.
+    </p>
+
+    <table class="mini-table">
+      <thead><tr><th>Calculation</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>0 × 0</code></td><td>0</td></tr>
+        <tr><td><code>0 × 1</code></td><td>0</td></tr>
+        <tr><td><code>1 × 0</code></td><td>0</td></tr>
+        <tr><td><code>1 × 1</code></td><td>1</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Method</h3>
+    <ol class="steps">
+      <li>Start with the rightmost bit of the multiplier.</li>
+      <li>If the bit is <strong>1</strong>, copy the multiplicand.</li>
+      <li>If the bit is <strong>0</strong>, write a row of zeros.</li>
+      <li>Shift each new partial product one place to the left.</li>
+      <li>Add all partial products using binary addition.</li>
+    </ol>
+
+    <h3>Worked example: <code>1011 × 1101</code></h3>
+    <div class="binary">        1011      (11)
+×       1101      (13)
+----------------
+        1011      ← 1011 × 1
+       0000       ← 1011 × 0, shifted 1
+      101100      ← 1011 × 1, shifted 2
++    1011000      ← 1011 × 1, shifted 3
+----------------
+     10001111     (143)</div>
+
+    <p><strong>Check:</strong> 11 × 13 = 143, and <code>10001111₂ = 143₁₀</code>.</p>
+
+    <div class="rule">
+      A left shift by one place multiplies an unsigned binary integer by 2, provided no significant bit is lost.
+    </div>
+
+    <div class="warn">
+      <strong>Common mistake:</strong> forgetting to shift the second, third, and later partial products.
+      This is the binary equivalent of forgetting place value in denary long multiplication.
+    </div>
+  </section>
+
+  <section id="twos">
+    <h2>4. Two’s complement representation</h2>
+
+    <p>
+      Two’s complement is a standard method for representing signed integers. The same fixed number of bits
+      can represent both positive and negative values, and addition circuitry can also be used for subtraction.
+    </p>
+
+    <h3>Range for n bits</h3>
+    <div class="rule">
+      <p class="formula">Minimum = −2<sup>n−1</sup></p>
+      <p class="formula">Maximum = 2<sup>n−1</sup> − 1</p>
+    </div>
+
+    <table class="mini-table">
+      <thead><tr><th>Bits</th><th>Minimum</th><th>Maximum</th></tr></thead>
+      <tbody>
+        <tr><td>4-bit</td><td>−8</td><td>+7</td></tr>
+        <tr><td>8-bit</td><td>−128</td><td>+127</td></tr>
+        <tr><td>16-bit</td><td>−32768</td><td>+32767</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Positive values</h3>
+    <p>
+      For a positive number, write its normal binary magnitude and pad the left side with zeros to the required
+      bit-width.
+    </p>
+
+    <div class="binary">+18₁₀ = 00010010₂   (8-bit two's complement)</div>
+
+    <h3>Negative values: invert + 1</h3>
+    <p>To represent a negative integer:</p>
+
+    <ol class="steps">
+      <li>Write the positive value in binary using the required number of bits.</li>
+      <li>Invert every bit: change 0 to 1 and 1 to 0.</li>
+      <li>Add 1 to the inverted result.</li>
+    </ol>
+
+    <h3>Worked example: represent −18 in 8 bits</h3>
+
+    <div class="binary">+18      00010010
+Invert   11101101
+Add 1  + 00000001
+         --------
+−18      11101110</div>
+
+    <p><strong>Therefore:</strong> <code>−18₁₀ = 11101110₂</code> in 8-bit two’s complement.</p>
+
+    <div class="tip">
+      A quick memory rule is <strong>invert + 1</strong>. However, the width must be fixed before you invert.
+    </div>
+
+    <h3>Interpreting a two’s complement number</h3>
+    <p>
+      If the most significant bit (leftmost bit) is <strong>0</strong>, the value is non-negative.
+      If it is <strong>1</strong>, the value is negative.
+    </p>
+
+    <div class="bits">
+      <span class="bit sign">1<br><small>sign</small></span>
+      <span class="bit">1</span><span class="bit">1</span><span class="bit">0</span>
+      <span class="bit">1</span><span class="bit">1</span><span class="bit">1</span><span class="bit">0</span>
+    </div>
+
+    <h3>Worked example: decode <code>11101110</code></h3>
+    <p>The MSB is 1, so the number is negative. Find its magnitude:</p>
+
+    <div class="binary">Given    11101110
+Invert   00010001
+Add 1  + 00000001
+         --------
+         00010010 = 18
+
+Therefore the original value is −18.</div>
+
+    <h3>Alternative place-value interpretation</h3>
+    <p>
+      In an 8-bit two’s complement number, the leftmost place has value <strong>−128</strong>, while the
+      remaining places have the usual positive values.
+    </p>
+
+    <div class="binary">11101110
+= −128 + 64 + 32 + 0 + 8 + 4 + 2 + 0
+= −18</div>
+
+    <div class="warn">
+      <strong>Do not use sign-and-magnitude logic.</strong> In two’s complement, the leftmost 1 does not simply
+      mean “put a minus sign in front of the remaining bits.”
+    </div>
+
+    <h3>Sign extension</h3>
+    <p>
+      When increasing the bit-width of a two’s complement number, repeat the sign bit on the left.
+    </p>
+
+    <div class="binary">4-bit  −3:  1101
+8-bit  −3:  11111101
+
+4-bit  +3:  0011
+8-bit  +3:  00000011</div>
+  </section>
+
+  <section id="subtraction">
+    <h2>5. Binary subtraction using two’s complement</h2>
+
+    <div class="rule">
+      <span class="formula">A − B = A + (−B)</span>
+    </div>
+
+    <p>
+      Instead of performing direct borrowing, convert the number being subtracted into its two’s complement
+      negative and then add.
+    </p>
+
+    <h3>Standard exam method</h3>
+    <ol class="steps">
+      <li>Use the stated bit-width for both numbers.</li>
+      <li>Keep the first number, A, unchanged.</li>
+      <li>Find the two’s complement of B to obtain −B.</li>
+      <li>Add A and −B.</li>
+      <li>If there is a carry beyond the fixed bit-width, discard it.</li>
+      <li>Interpret the remaining result as a two’s complement number.</li>
+    </ol>
+
+    <h3>Worked example 1: 23 − 9 using 8 bits</h3>
+
+    <div class="binary">23 = 00010111
+ 9 = 00001001
+
+Find −9:
+00001001
+11110110   ← invert
+11110111   ← add 1
+
+Now add:
+   00010111
+ + 11110111
+ -----------
+ 1 00001110
+
+Discard the carry outside 8 bits:
+00001110 = 14</div>
+
+    <p><strong>Answer:</strong> <code>23 − 9 = 14</code>.</p>
+
+    <h3>Worked example 2: 9 − 23 using 8 bits</h3>
+
+    <div class="binary"> 9 = 00001001
+23 = 00010111
+
+Find −23:
+00010111
+11101000   ← invert
+11101001   ← add 1
+
+Now add:
+  00001001
++ 11101001
+----------
+  11110010</div>
+
+    <p>
+      The result begins with 1, so it is negative. Decode it:
+    </p>
+
+    <div class="binary">11110010
+00001101   ← invert
+00001110   ← add 1
+= 14
+
+Therefore: 11110010 = −14</div>
+
+    <p><strong>Answer:</strong> <code>9 − 23 = −14</code>.</p>
+
+    <div class="danger">
+      <strong>Important:</strong> a carry-out and an overflow are not the same thing.
+      A carry beyond the fixed width is normally discarded in two’s complement arithmetic.
+      Signed overflow must be checked separately.
+    </div>
+  </section>
+
+  <section id="overflow">
+    <h2>6. Overflow</h2>
+
+    <p>
+      Overflow occurs when the mathematical answer cannot be represented in the available number of bits.
+      For 8-bit two’s complement, only values from −128 to +127 can be stored.
+    </p>
+
+    <h3>Fast rule for signed addition</h3>
+    <div class="rule">
+      If two numbers with the <strong>same sign</strong> are added and the answer has the
+      <strong>opposite sign</strong>, signed overflow has occurred.
+    </div>
+
+    <h3>Example: positive overflow</h3>
+    <div class="binary">  01100100   (+100)
++ 01010000   (+80)
+----------
+  10110100</div>
+
+    <p>
+      Mathematically, 100 + 80 = 180. This is outside the 8-bit signed range. The bit pattern begins with 1,
+      which would incorrectly represent a negative value. Therefore <strong>overflow occurred</strong>.
+    </p>
+
+    <h3>Example: no signed overflow</h3>
+    <div class="binary">  11110110   (−10)
++ 00010100   (+20)
+----------
+  00001010   (+10)</div>
+
+    <p>
+      The operands have different signs, so this addition cannot produce signed overflow.
+    </p>
+
+    <h3>Overflow in subtraction</h3>
+    <p>
+      Treat subtraction as addition of a negative value and check whether the true result lies outside the
+      permitted signed range.
+    </p>
+
+    <div class="warn">
+      For an exam response, do not simply say “there is a carry, therefore overflow.”
+      For signed two’s complement arithmetic, use the signed range or the sign-change rule.
+    </div>
+  </section>
+
+  <section id="exam">
+    <h2>7. A Level / CIE / NIS exam technique</h2>
+
+    <h3>Command words</h3>
+    <div class="examline"><strong>State / Give</strong><span>Provide the required value or fact. No extended explanation is normally needed.</span></div>
+    <div class="examline"><strong>Show</strong><span>Include the working that demonstrates how the result was obtained.</span></div>
+    <div class="examline"><strong>Calculate</strong><span>Carry out the arithmetic and give the final result, normally with working.</span></div>
+    <div class="examline"><strong>Explain</strong><span>Give a reason or linked explanation, not just a statement.</span></div>
+
+    <h3>What examiners expect in binary arithmetic</h3>
+    <ol>
+      <li>Correct fixed bit-width.</li>
+      <li>Accurate carries in binary addition.</li>
+      <li>Correct shifts in binary multiplication.</li>
+      <li>For a negative number: correct two’s complement conversion.</li>
+      <li>For subtraction: convert the subtrahend to its negative representation, then add.</li>
+      <li>Discard only a carry beyond the fixed width.</li>
+      <li>Interpret the final sign correctly.</li>
+      <li>Identify overflow when the result is outside the representable signed range.</li>
+    </ol>
+
+    <h3>Common mistakes</h3>
+    <div class="grid2">
+      <div class="card">
+        <h4>❌ Changing bit-width mid-calculation</h4>
+        <p>Do not convert an 8-bit question into a 9-bit signed result just because there is a carry.</p>
+      </div>
+      <div class="card">
+        <h4>❌ Invert without adding 1</h4>
+        <p>Inverting alone gives one’s complement. Two’s complement requires <strong>invert + 1</strong>.</p>
+      </div>
+      <div class="card">
+        <h4>❌ Reading the MSB as a simple minus sign</h4>
+        <p>Two’s complement is not sign-and-magnitude representation.</p>
+      </div>
+      <div class="card">
+        <h4>❌ Confusing carry and overflow</h4>
+        <p>A carry-out may be discarded; signed overflow is about representable range.</p>
+      </div>
+      <div class="card">
+        <h4>❌ Missing shifts in multiplication</h4>
+        <p>Each new partial product must move one place left.</p>
+      </div>
+      <div class="card">
+        <h4>❌ Treating a negative result as unsigned</h4>
+        <p>If the MSB is 1 in two’s complement, decode it as a negative value.</p>
+      </div>
+    </div>
+
+    <h3>Recommended working layout</h3>
+    <div class="binary">Question: Calculate 35 − 52 using 8-bit two's complement.
+
+1.  35 = 00100011
+2.  52 = 00110100
+3. −52:
+    00110100
+    11001011   invert
+    11001100   add 1
+4. Add:
+    00100011
+  + 11001100
+    --------
+    11101111
+5. Decode result:
+    11101111 → −17
+
+Answer: −17</div>
+
+    <div class="tip">
+      This structured layout is preferable to jumping directly to the answer because it exposes method marks
+      if a later arithmetic slip occurs.
+    </div>
+  </section>
+
+  <section id="check">
+    <h2>8. Check your understanding</h2>
+    <p>These short questions use the same concepts in exam-style form. Open each answer after attempting it.</p>
+
+    <div class="question">
+      <strong>Q1.</strong> Calculate <code>101101 + 011011</code>. <span class="mark">[2]</span>
+      <details><summary>Show answer</summary><div class="answer"><code>1001000₂</code> (45 + 27 = 72).</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q2.</strong> Calculate <code>1011 × 0110</code>. <span class="mark">[3]</span>
+      <details><summary>Show answer</summary><div class="answer"><code>1000010₂</code> (11 × 6 = 66).</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q3.</strong> Represent <code>−37</code> as an 8-bit two’s complement number. <span class="mark">[2]</span>
+      <details><summary>Show answer</summary><div class="answer">+37 = <code>00100101</code> → invert <code>11011010</code> → add 1 = <code>11011011</code>.</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q4.</strong> State the denary value of the 8-bit two’s complement number <code>11100101</code>. <span class="mark">[2]</span>
+      <details><summary>Show answer</summary><div class="answer"><code>11100101</code> → invert <code>00011010</code> → add 1 = <code>00011011</code> = 27. Therefore the value is <strong>−27</strong>.</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q5.</strong> Using 8-bit two’s complement, calculate <code>41 − 19</code>. <span class="mark">[3]</span>
+      <details><summary>Show answer</summary><div class="answer">41 = <code>00101001</code>; −19 = <code>11101101</code>; sum = <code>00010110</code> after discarding carry-out = <strong>22</strong>.</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q6.</strong> Using 8-bit two’s complement, calculate <code>18 − 46</code>. <span class="mark">[3]</span>
+      <details><summary>Show answer</summary><div class="answer">18 = <code>00010010</code>; −46 = <code>11010010</code>; sum = <code>11100100</code> = <strong>−28</strong>.</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q7.</strong> Does <code>01111000 + 00110010</code> cause signed 8-bit overflow? Explain. <span class="mark">[2]</span>
+      <details><summary>Show answer</summary><div class="answer">Yes. 120 + 50 = 170, which is greater than +127. Two positive operands would produce a bit pattern with MSB 1, showing signed overflow.</div></details>
+    </div>
+
+    <div class="question">
+      <strong>Q8.</strong> State the range of a 12-bit two’s complement integer. <span class="mark">[2]</span>
+      <details><summary>Show answer</summary><div class="answer">−2<sup>11</sup> to 2<sup>11</sup> − 1 = <strong>−2048 to +2047</strong>.</div></details>
+    </div>
+  </section>
+
+  <section>
+    <h2>9. Final revision sheet</h2>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Binary addition</h3>
+        <p><code>1 + 1 = 10</code></p>
+        <p><code>1 + 1 + 1 = 11</code></p>
+        <p>Work from right to left and carry when required.</p>
+      </div>
+
+      <div class="card">
+        <h3>Binary multiplication</h3>
+        <p><code>1 × 1 = 1</code>; all products involving 0 equal 0.</p>
+        <p>Shift each new partial product one place left.</p>
+      </div>
+
+      <div class="card">
+        <h3>Negative two’s complement</h3>
+        <p><strong>1.</strong> Fix the bit-width.</p>
+        <p><strong>2.</strong> Write the positive magnitude.</p>
+        <p><strong>3.</strong> Invert all bits.</p>
+        <p><strong>4.</strong> Add 1.</p>
+      </div>
+
+      <div class="card">
+        <h3>Subtraction</h3>
+        <p class="formula">A − B = A + (−B)</p>
+        <p>Convert B to −B using two’s complement, then add.</p>
+      </div>
+
+      <div class="card">
+        <h3>Signed n-bit range</h3>
+        <p class="formula">−2<sup>n−1</sup> to 2<sup>n−1</sup> − 1</p>
+      </div>
+
+      <div class="card">
+        <h3>Overflow</h3>
+        <p>Same-sign operands producing an opposite-sign result indicate signed overflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="practice100">
+    <h2>10. 100 Practice Tasks — AI-Checked</h2>
+    <p>
+      Type your answer and press <strong>Check</strong>. If you're correct, you'll see a tick straight away —
+      no AI is used for that. If you're incorrect, a short <strong>hint</strong> (not the answer) is generated
+      to help you work it out yourself. Keep trying until you get it, then move on.
+    </p>
+
+    <div class="task-progress no-print">
+      <span>Solved: <strong id="taskSolvedCount">0</strong> / 100</span>
+      <div class="bar"><span id="taskProgressBar"></span></div>
+      <span id="taskServerNote" style="color:var(--muted)"></span>
+    </div>
+
+    <h3>Binary addition</h3>
+    <div class="question task" id="t-add1" data-task="add1">
+      <div class="task-head"><strong>Q1.</strong> Calculate 000101₂ + 011100₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add2" data-task="add2">
+      <div class="task-head"><strong>Q2.</strong> Calculate 01000011₂ + 00111110₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add3" data-task="add3">
+      <div class="task-head"><strong>Q3.</strong> Calculate 011100₂ + 001000₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add4" data-task="add4">
+      <div class="task-head"><strong>Q4.</strong> Calculate 010111₂ + 010010₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add5" data-task="add5">
+      <div class="task-head"><strong>Q5.</strong> Calculate 000101₂ + 000111₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add6" data-task="add6">
+      <div class="task-head"><strong>Q6.</strong> Calculate 001100₂ + 010101₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add7" data-task="add7">
+      <div class="task-head"><strong>Q7.</strong> Calculate 010110₂ + 001011₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add8" data-task="add8">
+      <div class="task-head"><strong>Q8.</strong> Calculate 00111101₂ + 01110111₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add9" data-task="add9">
+      <div class="task-head"><strong>Q9.</strong> Calculate 11010100₂ + 00000110₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add10" data-task="add10">
+      <div class="task-head"><strong>Q10.</strong> Calculate 011011₂ + 010010₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add11" data-task="add11">
+      <div class="task-head"><strong>Q11.</strong> Calculate 01001100₂ + 00101100₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add12" data-task="add12">
+      <div class="task-head"><strong>Q12.</strong> Calculate 011101₂ + 001111₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add13" data-task="add13">
+      <div class="task-head"><strong>Q13.</strong> Calculate 000111₂ + 010001₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add14" data-task="add14">
+      <div class="task-head"><strong>Q14.</strong> Calculate 010000₂ + 100000₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add15" data-task="add15">
+      <div class="task-head"><strong>Q15.</strong> Calculate 10011111₂ + 01001000₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add16" data-task="add16">
+      <div class="task-head"><strong>Q16.</strong> Calculate 011100₂ + 010011₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add17" data-task="add17">
+      <div class="task-head"><strong>Q17.</strong> Calculate 100010₂ + 010001₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add18" data-task="add18">
+      <div class="task-head"><strong>Q18.</strong> Calculate 010110₂ + 001110₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add19" data-task="add19">
+      <div class="task-head"><strong>Q19.</strong> Calculate 10011000₂ + 00110110₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-add20" data-task="add20">
+      <div class="task-head"><strong>Q20.</strong> Calculate 000110₂ + 011010₂ (unsigned). Give your answer as a binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Binary multiplication</h3>
+    <div class="question task" id="t-mul1" data-task="mul1">
+      <div class="task-head"><strong>Q21.</strong> Calculate 1110₂ × 0110₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul2" data-task="mul2">
+      <div class="task-head"><strong>Q22.</strong> Calculate 1111₂ × 0101₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul3" data-task="mul3">
+      <div class="task-head"><strong>Q23.</strong> Calculate 1000₂ × 0110₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul4" data-task="mul4">
+      <div class="task-head"><strong>Q24.</strong> Calculate 10110₂ × 11100₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul5" data-task="mul5">
+      <div class="task-head"><strong>Q25.</strong> Calculate 00111₂ × 01101₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul6" data-task="mul6">
+      <div class="task-head"><strong>Q26.</strong> Calculate 01000₂ × 10111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul7" data-task="mul7">
+      <div class="task-head"><strong>Q27.</strong> Calculate 11000₂ × 11111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul8" data-task="mul8">
+      <div class="task-head"><strong>Q28.</strong> Calculate 1011₂ × 1100₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul9" data-task="mul9">
+      <div class="task-head"><strong>Q29.</strong> Calculate 1010₂ × 1101₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul10" data-task="mul10">
+      <div class="task-head"><strong>Q30.</strong> Calculate 0100₂ × 1001₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul11" data-task="mul11">
+      <div class="task-head"><strong>Q31.</strong> Calculate 01010₂ × 11111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul12" data-task="mul12">
+      <div class="task-head"><strong>Q32.</strong> Calculate 1100₂ × 0111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul13" data-task="mul13">
+      <div class="task-head"><strong>Q33.</strong> Calculate 0101₂ × 1111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul14" data-task="mul14">
+      <div class="task-head"><strong>Q34.</strong> Calculate 1110₂ × 0111₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul15" data-task="mul15">
+      <div class="task-head"><strong>Q35.</strong> Calculate 01010₂ × 00100₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul16" data-task="mul16">
+      <div class="task-head"><strong>Q36.</strong> Calculate 1011₂ × 1101₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul17" data-task="mul17">
+      <div class="task-head"><strong>Q37.</strong> Calculate 01000₂ × 10110₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul18" data-task="mul18">
+      <div class="task-head"><strong>Q38.</strong> Calculate 01110₂ × 11110₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul19" data-task="mul19">
+      <div class="task-head"><strong>Q39.</strong> Calculate 00110₂ × 01010₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-mul20" data-task="mul20">
+      <div class="task-head"><strong>Q40.</strong> Calculate 0101₂ × 1101₂ (unsigned). Give your answer as a binary number. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Two's complement — encoding</h3>
+    <div class="question task" id="t-enc1" data-task="enc1">
+      <div class="task-head"><strong>Q41.</strong> Represent -116 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc2" data-task="enc2">
+      <div class="task-head"><strong>Q42.</strong> Represent -30 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc3" data-task="enc3">
+      <div class="task-head"><strong>Q43.</strong> Represent -13 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc4" data-task="enc4">
+      <div class="task-head"><strong>Q44.</strong> Represent 21 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc5" data-task="enc5">
+      <div class="task-head"><strong>Q45.</strong> Represent -78 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc6" data-task="enc6">
+      <div class="task-head"><strong>Q46.</strong> Represent -50 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc7" data-task="enc7">
+      <div class="task-head"><strong>Q47.</strong> Represent -126 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc8" data-task="enc8">
+      <div class="task-head"><strong>Q48.</strong> Represent 89 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc9" data-task="enc9">
+      <div class="task-head"><strong>Q49.</strong> Represent -16 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-enc10" data-task="enc10">
+      <div class="task-head"><strong>Q50.</strong> Represent -22 as an 8-bit two's complement binary number. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Two's complement — decoding</h3>
+    <div class="question task" id="t-dec1" data-task="dec1">
+      <div class="task-head"><strong>Q51.</strong> State the denary value of the 8-bit two's complement number 01110101₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec2" data-task="dec2">
+      <div class="task-head"><strong>Q52.</strong> State the denary value of the 8-bit two's complement number 00000001₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec3" data-task="dec3">
+      <div class="task-head"><strong>Q53.</strong> State the denary value of the 8-bit two's complement number 11110101₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec4" data-task="dec4">
+      <div class="task-head"><strong>Q54.</strong> State the denary value of the 8-bit two's complement number 10111001₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec5" data-task="dec5">
+      <div class="task-head"><strong>Q55.</strong> State the denary value of the 8-bit two's complement number 11100001₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec6" data-task="dec6">
+      <div class="task-head"><strong>Q56.</strong> State the denary value of the 8-bit two's complement number 01000100₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec7" data-task="dec7">
+      <div class="task-head"><strong>Q57.</strong> State the denary value of the 8-bit two's complement number 11111001₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec8" data-task="dec8">
+      <div class="task-head"><strong>Q58.</strong> State the denary value of the 8-bit two's complement number 10000001₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec9" data-task="dec9">
+      <div class="task-head"><strong>Q59.</strong> State the denary value of the 8-bit two's complement number 11000100₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-dec10" data-task="dec10">
+      <div class="task-head"><strong>Q60.</strong> State the denary value of the 8-bit two's complement number 00101110₂. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Subtraction via two's complement</h3>
+    <div class="question task" id="t-sub1" data-task="sub1">
+      <div class="task-head"><strong>Q61.</strong> Using 8-bit two's complement, calculate 69 − 18. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub2" data-task="sub2">
+      <div class="task-head"><strong>Q62.</strong> Using 8-bit two's complement, calculate 116 − 85. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub3" data-task="sub3">
+      <div class="task-head"><strong>Q63.</strong> Using 8-bit two's complement, calculate 43 − 112. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub4" data-task="sub4">
+      <div class="task-head"><strong>Q64.</strong> Using 8-bit two's complement, calculate 86 − 69. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub5" data-task="sub5">
+      <div class="task-head"><strong>Q65.</strong> Using 8-bit two's complement, calculate 82 − 30. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub6" data-task="sub6">
+      <div class="task-head"><strong>Q66.</strong> Using 8-bit two's complement, calculate 24 − 52. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub7" data-task="sub7">
+      <div class="task-head"><strong>Q67.</strong> Using 8-bit two's complement, calculate 102 − 25. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub8" data-task="sub8">
+      <div class="task-head"><strong>Q68.</strong> Using 8-bit two's complement, calculate 74 − 104. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub9" data-task="sub9">
+      <div class="task-head"><strong>Q69.</strong> Using 8-bit two's complement, calculate 72 − 5. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub10" data-task="sub10">
+      <div class="task-head"><strong>Q70.</strong> Using 8-bit two's complement, calculate 81 − 46. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub11" data-task="sub11">
+      <div class="task-head"><strong>Q71.</strong> Using 8-bit two's complement, calculate 67 − 7. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub12" data-task="sub12">
+      <div class="task-head"><strong>Q72.</strong> Using 8-bit two's complement, calculate 19 − 51. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub13" data-task="sub13">
+      <div class="task-head"><strong>Q73.</strong> Using 8-bit two's complement, calculate 117 − 111. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub14" data-task="sub14">
+      <div class="task-head"><strong>Q74.</strong> Using 8-bit two's complement, calculate 108 − 44. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub15" data-task="sub15">
+      <div class="task-head"><strong>Q75.</strong> Using 8-bit two's complement, calculate 35 − 12. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub16" data-task="sub16">
+      <div class="task-head"><strong>Q76.</strong> Using 8-bit two's complement, calculate 35 − 117. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub17" data-task="sub17">
+      <div class="task-head"><strong>Q77.</strong> Using 8-bit two's complement, calculate 77 − 15. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub18" data-task="sub18">
+      <div class="task-head"><strong>Q78.</strong> Using 8-bit two's complement, calculate 15 − 98. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub19" data-task="sub19">
+      <div class="task-head"><strong>Q79.</strong> Using 8-bit two's complement, calculate 67 − 109. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-sub20" data-task="sub20">
+      <div class="task-head"><strong>Q80.</strong> Using 8-bit two's complement, calculate 13 − 102. Give the denary answer. <span class="mark">[3]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Overflow</h3>
+    <div class="question task" id="t-ovf1" data-task="ovf1">
+      <div class="task-head"><strong>Q81.</strong> 01011110₂ (+94) is added to 01000110₂ (+70) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf2" data-task="ovf2">
+      <div class="task-head"><strong>Q82.</strong> 10110011₂ (-77) is added to 10000111₂ (-121) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf3" data-task="ovf3">
+      <div class="task-head"><strong>Q83.</strong> 00100101₂ (+37) is added to 10110001₂ (-79) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf4" data-task="ovf4">
+      <div class="task-head"><strong>Q84.</strong> 11000011₂ (-61) is added to 10100001₂ (-95) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf5" data-task="ovf5">
+      <div class="task-head"><strong>Q85.</strong> 01000010₂ (+66) is added to 10110100₂ (-76) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf6" data-task="ovf6">
+      <div class="task-head"><strong>Q86.</strong> 00011001₂ (+25) is added to 11010111₂ (-41) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf7" data-task="ovf7">
+      <div class="task-head"><strong>Q87.</strong> 00110101₂ (+53) is added to 00001100₂ (+12) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf8" data-task="ovf8">
+      <div class="task-head"><strong>Q88.</strong> 00001010₂ (+10) is added to 00010011₂ (+19) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf9" data-task="ovf9">
+      <div class="task-head"><strong>Q89.</strong> 00010010₂ (+18) is added to 00001110₂ (+14) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf10" data-task="ovf10">
+      <div class="task-head"><strong>Q90.</strong> 00010011₂ (+19) is added to 10110101₂ (-75) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf11" data-task="ovf11">
+      <div class="task-head"><strong>Q91.</strong> 10100001₂ (-95) is added to 10111000₂ (-72) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf12" data-task="ovf12">
+      <div class="task-head"><strong>Q92.</strong> 01100110₂ (+102) is added to 01111010₂ (+122) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf13" data-task="ovf13">
+      <div class="task-head"><strong>Q93.</strong> 00101001₂ (+41) is added to 10010010₂ (-110) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf14" data-task="ovf14">
+      <div class="task-head"><strong>Q94.</strong> 01110001₂ (+113) is added to 11000010₂ (-62) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-ovf15" data-task="ovf15">
+      <div class="task-head"><strong>Q95.</strong> 00010110₂ (+22) is added to 01011110₂ (+94) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <h3>Two's complement — range</h3>
+    <div class="question task" id="t-range1" data-task="range1">
+      <div class="task-head"><strong>Q96.</strong> State the range of values that can be represented by a 5-bit two's complement integer. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-range2" data-task="range2">
+      <div class="task-head"><strong>Q97.</strong> State the range of values that can be represented by a 4-bit two's complement integer. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-range3" data-task="range3">
+      <div class="task-head"><strong>Q98.</strong> State the range of values that can be represented by a 6-bit two's complement integer. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-range4" data-task="range4">
+      <div class="task-head"><strong>Q99.</strong> State the range of values that can be represented by a 7-bit two's complement integer. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>
+    <div class="question task" id="t-range5" data-task="range5">
+      <div class="task-head"><strong>Q100.</strong> State the range of values that can be represented by a 3-bit two's complement integer. <span class="mark">[2]</span></div>
+      <div class="task-row">
+        <input type="text" class="task-input" placeholder="Your answer" autocomplete="off" spellcheck="false">
+        <button type="button" class="task-check-btn">Check</button>
+      </div>
+      <div class="task-feedback"></div>
+    </div>  </section>
+
+  <footer class="footer">
+    Theory pack designed for NIS learning objectives 12.1.1.3–12.1.1.5 and Cambridge International A Level-style
+    binary arithmetic conventions. This is a teacher-created resource, not an official Cambridge publication.
+  </footer>
+</div>
+<script>
+(function(){
+const TASKS = [
+  {id:"add1",topic:"Binary addition",q:"Calculate 000101\u2082 + 011100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:33,marks:2},
+  {id:"add2",topic:"Binary addition",q:"Calculate 01000011\u2082 + 00111110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:129,marks:2},
+  {id:"add3",topic:"Binary addition",q:"Calculate 011100\u2082 + 001000\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:36,marks:2},
+  {id:"add4",topic:"Binary addition",q:"Calculate 010111\u2082 + 010010\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:41,marks:2},
+  {id:"add5",topic:"Binary addition",q:"Calculate 000101\u2082 + 000111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:12,marks:2},
+  {id:"add6",topic:"Binary addition",q:"Calculate 001100\u2082 + 010101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:33,marks:2},
+  {id:"add7",topic:"Binary addition",q:"Calculate 010110\u2082 + 001011\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:33,marks:2},
+  {id:"add8",topic:"Binary addition",q:"Calculate 00111101\u2082 + 01110111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:180,marks:2},
+  {id:"add9",topic:"Binary addition",q:"Calculate 11010100\u2082 + 00000110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:218,marks:2},
+  {id:"add10",topic:"Binary addition",q:"Calculate 011011\u2082 + 010010\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:45,marks:2},
+  {id:"add11",topic:"Binary addition",q:"Calculate 01001100\u2082 + 00101100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:120,marks:2},
+  {id:"add12",topic:"Binary addition",q:"Calculate 011101\u2082 + 001111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:44,marks:2},
+  {id:"add13",topic:"Binary addition",q:"Calculate 000111\u2082 + 010001\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:24,marks:2},
+  {id:"add14",topic:"Binary addition",q:"Calculate 010000\u2082 + 100000\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:48,marks:2},
+  {id:"add15",topic:"Binary addition",q:"Calculate 10011111\u2082 + 01001000\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:231,marks:2},
+  {id:"add16",topic:"Binary addition",q:"Calculate 011100\u2082 + 010011\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:47,marks:2},
+  {id:"add17",topic:"Binary addition",q:"Calculate 100010\u2082 + 010001\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:51,marks:2},
+  {id:"add18",topic:"Binary addition",q:"Calculate 010110\u2082 + 001110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:36,marks:2},
+  {id:"add19",topic:"Binary addition",q:"Calculate 10011000\u2082 + 00110110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:206,marks:2},
+  {id:"add20",topic:"Binary addition",q:"Calculate 000110\u2082 + 011010\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:32,marks:2},
+  {id:"mul1",topic:"Binary multiplication",q:"Calculate 1110\u2082 \u00d7 0110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:84,marks:3},
+  {id:"mul2",topic:"Binary multiplication",q:"Calculate 1111\u2082 \u00d7 0101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:75,marks:3},
+  {id:"mul3",topic:"Binary multiplication",q:"Calculate 1000\u2082 \u00d7 0110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:48,marks:3},
+  {id:"mul4",topic:"Binary multiplication",q:"Calculate 10110\u2082 \u00d7 11100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:616,marks:3},
+  {id:"mul5",topic:"Binary multiplication",q:"Calculate 00111\u2082 \u00d7 01101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:91,marks:3},
+  {id:"mul6",topic:"Binary multiplication",q:"Calculate 01000\u2082 \u00d7 10111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:184,marks:3},
+  {id:"mul7",topic:"Binary multiplication",q:"Calculate 11000\u2082 \u00d7 11111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:744,marks:3},
+  {id:"mul8",topic:"Binary multiplication",q:"Calculate 1011\u2082 \u00d7 1100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:132,marks:3},
+  {id:"mul9",topic:"Binary multiplication",q:"Calculate 1010\u2082 \u00d7 1101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:130,marks:3},
+  {id:"mul10",topic:"Binary multiplication",q:"Calculate 0100\u2082 \u00d7 1001\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:36,marks:3},
+  {id:"mul11",topic:"Binary multiplication",q:"Calculate 01010\u2082 \u00d7 11111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:310,marks:3},
+  {id:"mul12",topic:"Binary multiplication",q:"Calculate 1100\u2082 \u00d7 0111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:84,marks:3},
+  {id:"mul13",topic:"Binary multiplication",q:"Calculate 0101\u2082 \u00d7 1111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:75,marks:3},
+  {id:"mul14",topic:"Binary multiplication",q:"Calculate 1110\u2082 \u00d7 0111\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:98,marks:3},
+  {id:"mul15",topic:"Binary multiplication",q:"Calculate 01010\u2082 \u00d7 00100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:40,marks:3},
+  {id:"mul16",topic:"Binary multiplication",q:"Calculate 1011\u2082 \u00d7 1101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:143,marks:3},
+  {id:"mul17",topic:"Binary multiplication",q:"Calculate 01000\u2082 \u00d7 10110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:176,marks:3},
+  {id:"mul18",topic:"Binary multiplication",q:"Calculate 01110\u2082 \u00d7 11110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:420,marks:3},
+  {id:"mul19",topic:"Binary multiplication",q:"Calculate 00110\u2082 \u00d7 01010\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:60,marks:3},
+  {id:"mul20",topic:"Binary multiplication",q:"Calculate 0101\u2082 \u00d7 1101\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:65,marks:3},
+  {id:"enc1",topic:"Two's complement \u2014 encoding",q:"Represent -116 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"10001100",marks:2},
+  {id:"enc2",topic:"Two's complement \u2014 encoding",q:"Represent -30 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"11100010",marks:2},
+  {id:"enc3",topic:"Two's complement \u2014 encoding",q:"Represent -13 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"11110011",marks:2},
+  {id:"enc4",topic:"Two's complement \u2014 encoding",q:"Represent 21 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"00010101",marks:2},
+  {id:"enc5",topic:"Two's complement \u2014 encoding",q:"Represent -78 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"10110010",marks:2},
+  {id:"enc6",topic:"Two's complement \u2014 encoding",q:"Represent -50 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"11001110",marks:2},
+  {id:"enc7",topic:"Two's complement \u2014 encoding",q:"Represent -126 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"10000010",marks:2},
+  {id:"enc8",topic:"Two's complement \u2014 encoding",q:"Represent 89 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"01011001",marks:2},
+  {id:"enc9",topic:"Two's complement \u2014 encoding",q:"Represent -16 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"11110000",marks:2},
+  {id:"enc10",topic:"Two's complement \u2014 encoding",q:"Represent -22 as an 8-bit two's complement binary number.",type:"tcbin",bits:8,answer:"11101010",marks:2},
+  {id:"dec1",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 01110101\u2082.",type:"int",answer:117,marks:2},
+  {id:"dec2",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 00000001\u2082.",type:"int",answer:1,marks:2},
+  {id:"dec3",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 11110101\u2082.",type:"int",answer:-11,marks:2},
+  {id:"dec4",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 10111001\u2082.",type:"int",answer:-71,marks:2},
+  {id:"dec5",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 11100001\u2082.",type:"int",answer:-31,marks:2},
+  {id:"dec6",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 01000100\u2082.",type:"int",answer:68,marks:2},
+  {id:"dec7",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 11111001\u2082.",type:"int",answer:-7,marks:2},
+  {id:"dec8",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 10000001\u2082.",type:"int",answer:-127,marks:2},
+  {id:"dec9",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 11000100\u2082.",type:"int",answer:-60,marks:2},
+  {id:"dec10",topic:"Two's complement \u2014 decoding",q:"State the denary value of the 8-bit two's complement number 00101110\u2082.",type:"int",answer:46,marks:2},
+  {id:"sub1",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 69 \u2212 18. Give the denary answer.",type:"int",answer:51,marks:3},
+  {id:"sub2",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 116 \u2212 85. Give the denary answer.",type:"int",answer:31,marks:3},
+  {id:"sub3",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 43 \u2212 112. Give the denary answer.",type:"int",answer:-69,marks:3},
+  {id:"sub4",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 86 \u2212 69. Give the denary answer.",type:"int",answer:17,marks:3},
+  {id:"sub5",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 82 \u2212 30. Give the denary answer.",type:"int",answer:52,marks:3},
+  {id:"sub6",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 24 \u2212 52. Give the denary answer.",type:"int",answer:-28,marks:3},
+  {id:"sub7",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 102 \u2212 25. Give the denary answer.",type:"int",answer:77,marks:3},
+  {id:"sub8",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 74 \u2212 104. Give the denary answer.",type:"int",answer:-30,marks:3},
+  {id:"sub9",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 72 \u2212 5. Give the denary answer.",type:"int",answer:67,marks:3},
+  {id:"sub10",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 81 \u2212 46. Give the denary answer.",type:"int",answer:35,marks:3},
+  {id:"sub11",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 67 \u2212 7. Give the denary answer.",type:"int",answer:60,marks:3},
+  {id:"sub12",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 19 \u2212 51. Give the denary answer.",type:"int",answer:-32,marks:3},
+  {id:"sub13",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 117 \u2212 111. Give the denary answer.",type:"int",answer:6,marks:3},
+  {id:"sub14",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 108 \u2212 44. Give the denary answer.",type:"int",answer:64,marks:3},
+  {id:"sub15",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 35 \u2212 12. Give the denary answer.",type:"int",answer:23,marks:3},
+  {id:"sub16",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 35 \u2212 117. Give the denary answer.",type:"int",answer:-82,marks:3},
+  {id:"sub17",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 77 \u2212 15. Give the denary answer.",type:"int",answer:62,marks:3},
+  {id:"sub18",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 15 \u2212 98. Give the denary answer.",type:"int",answer:-83,marks:3},
+  {id:"sub19",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 67 \u2212 109. Give the denary answer.",type:"int",answer:-42,marks:3},
+  {id:"sub20",topic:"Subtraction via two's complement",q:"Using 8-bit two's complement, calculate 13 \u2212 102. Give the denary answer.",type:"int",answer:-89,marks:3},
+  {id:"ovf1",topic:"Overflow",q:"01011110\u2082 (+94) is added to 01000110\u2082 (+70) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"yes",marks:2},
+  {id:"ovf2",topic:"Overflow",q:"10110011\u2082 (-77) is added to 10000111\u2082 (-121) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"yes",marks:2},
+  {id:"ovf3",topic:"Overflow",q:"00100101\u2082 (+37) is added to 10110001\u2082 (-79) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf4",topic:"Overflow",q:"11000011\u2082 (-61) is added to 10100001\u2082 (-95) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"yes",marks:2},
+  {id:"ovf5",topic:"Overflow",q:"01000010\u2082 (+66) is added to 10110100\u2082 (-76) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf6",topic:"Overflow",q:"00011001\u2082 (+25) is added to 11010111\u2082 (-41) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf7",topic:"Overflow",q:"00110101\u2082 (+53) is added to 00001100\u2082 (+12) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf8",topic:"Overflow",q:"00001010\u2082 (+10) is added to 00010011\u2082 (+19) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf9",topic:"Overflow",q:"00010010\u2082 (+18) is added to 00001110\u2082 (+14) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf10",topic:"Overflow",q:"00010011\u2082 (+19) is added to 10110101\u2082 (-75) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf11",topic:"Overflow",q:"10100001\u2082 (-95) is added to 10111000\u2082 (-72) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"yes",marks:2},
+  {id:"ovf12",topic:"Overflow",q:"01100110\u2082 (+102) is added to 01111010\u2082 (+122) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"yes",marks:2},
+  {id:"ovf13",topic:"Overflow",q:"00101001\u2082 (+41) is added to 10010010\u2082 (-110) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf14",topic:"Overflow",q:"01110001\u2082 (+113) is added to 11000010\u2082 (-62) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"ovf15",topic:"Overflow",q:"00010110\u2082 (+22) is added to 01011110\u2082 (+94) using 8-bit two's complement. Does this cause signed overflow? Answer Yes or No.",type:"yesno",answer:"no",marks:2},
+  {id:"range1",topic:"Two's complement \u2014 range",q:"State the range of values that can be represented by a 5-bit two's complement integer.",type:"range",answer:[-16,15],marks:2},
+  {id:"range2",topic:"Two's complement \u2014 range",q:"State the range of values that can be represented by a 4-bit two's complement integer.",type:"range",answer:[-8,7],marks:2},
+  {id:"range3",topic:"Two's complement \u2014 range",q:"State the range of values that can be represented by a 6-bit two's complement integer.",type:"range",answer:[-32,31],marks:2},
+  {id:"range4",topic:"Two's complement \u2014 range",q:"State the range of values that can be represented by a 7-bit two's complement integer.",type:"range",answer:[-64,63],marks:2},
+  {id:"range5",topic:"Two's complement \u2014 range",q:"State the range of values that can be represented by a 3-bit two's complement integer.",type:"range",answer:[-4,3],marks:2},
+];
+
+function normalizeUnsignedBinary(raw){
+  const cleaned = raw.trim().replace(/[\s_]/g,'').replace(/[₂b]$/i,'');
+  if(!/^[01]+$/.test(cleaned)) return null;
+  return parseInt(cleaned,2);
+}
+
+function checkTask(task, raw){
+  raw = (raw||'').trim();
+  if(!raw) return false;
+  if(task.type === 'ubin'){
+    const asBinary = normalizeUnsignedBinary(raw);
+    if(asBinary !== null) return asBinary === task.answer;
+    const asNumber = Number(raw.replace(/,/g,''));
+    return !Number.isNaN(asNumber) && asNumber === task.answer;
+  }
+  if(task.type === 'tcbin'){
+    const cleaned = raw.replace(/[\s_]/g,'').replace(/[₂b]$/i,'');
+    if(!/^[01]+$/.test(cleaned) || cleaned.length !== task.bits) return false;
+    return cleaned === task.answer;
+  }
+  if(task.type === 'int'){
+    const cleaned = raw.replace(/[,\s]/g,'').replace(/^\+/,'');
+    const n = Number(cleaned);
+    return !Number.isNaN(n) && n === task.answer;
+  }
+  if(task.type === 'yesno'){
+    const v = raw.toLowerCase();
+    if(/^y(es)?$/.test(v)) return task.answer === 'yes';
+    if(/^n(o)?$/.test(v)) return task.answer === 'no';
+    return false;
+  }
+  if(task.type === 'range'){
+    const nums = raw.match(/-?\d+/g);
+    if(!nums || nums.length < 2) return false;
+    const a = parseInt(nums[0],10), b = parseInt(nums[nums.length-1],10);
+    const lo = Math.min(a,b), hi = Math.max(a,b);
+    return lo === task.answer[0] && hi === task.answer[1];
+  }
+  return false;
+}
+
+function setFeedback(el, cls, text){
+  el.className = 'task-feedback show ' + cls;
+  el.textContent = text;
+}
+
+let solvedCount = 0;
+const solvedCountEl = document.getElementById('taskSolvedCount');
+const progressBarEl = document.getElementById('taskProgressBar');
+const serverNoteEl = document.getElementById('taskServerNote');
+
+function updateProgress(){
+  if(solvedCountEl) solvedCountEl.textContent = String(solvedCount);
+  if(progressBarEl) progressBarEl.style.width = (solvedCount/TASKS.length*100) + '%';
+}
+
+document.querySelectorAll('[data-task]').forEach(wrap=>{
+  const task = TASKS.find(t=>t.id === wrap.dataset.task);
+  if(!task) return;
+  const input = wrap.querySelector('.task-input');
+  const btn = wrap.querySelector('.task-check-btn');
+  const feedback = wrap.querySelector('.task-feedback');
+
+  async function runCheck(){
+    const raw = input.value;
+    if(!raw.trim()){
+      setFeedback(feedback, 'hint', 'Type an answer first.');
+      return;
+    }
+    if(checkTask(task, raw)){
+      setFeedback(feedback, 'correct', '✓ Correct — well done!');
+      input.disabled = true;
+      btn.disabled = true;
+      solvedCount++;
+      updateProgress();
+      return;
+    }
+
+    setFeedback(feedback, 'pending', 'Checking…');
+    btn.disabled = true;
+    try{
+      const res = await fetch('/api/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: task.q,
+          correctAnswer: Array.isArray(task.answer) ? task.answer.join(' to ') : task.answer,
+          studentAnswer: raw,
+          topic: task.topic,
+        }),
+      });
+      const data = await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.error || ('Request failed (' + res.status + ')'));
+      setFeedback(feedback, 'hint', '✗ Not quite. Hint: ' + data.hint);
+    }catch(err){
+      setFeedback(feedback, 'hint', '✗ Not quite — and the hint service is unavailable right now (' + err.message + '). This practice page needs the project\'s Node server running on the same origin (see README.md) for hints to work; re-check your working in the meantime.');
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', runCheck);
+  input.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); runCheck(); } });
+});
+
+fetch('/api/health').then(r=>r.json()).then(d=>{
+  if(serverNoteEl && !d.openaiConfigured){
+    serverNoteEl.textContent = 'Hints need OPENAI_API_KEY set on the server.';
+  }
+}).catch(()=>{
+  if(serverNoteEl) serverNoteEl.textContent = 'Hints unavailable — open this page via the project\'s Node server, not as a local file.';
+});
+})();
+</script>
+
+</body>
+</html>

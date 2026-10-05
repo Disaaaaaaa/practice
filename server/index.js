@@ -462,6 +462,84 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// ---------- self-study hints (Binary Arithmetic practice pack) ----------
+// Deliberately not behind Supabase login — this is an open practice tool,
+// not a graded submission. Correctness itself is checked entirely in the
+// browser (public/..._Theory_Pack.html); this endpoint is only reached
+// when the student's answer was WRONG, to get a short hint instead of the
+// answer. A simple per-IP limit caps how much that can cost if the page is
+// ever exposed publicly (works for the local/traditional server; on a
+// serverless host like Vercel each cold instance gets its own counter, so
+// treat this as a soft guard, not a hard one).
+const hintRateLimit = new Map();
+function hintAllowed(ip) {
+  const now = Date.now();
+  const entry = hintRateLimit.get(ip);
+  if (!entry || now > entry.resetAt) {
+    hintRateLimit.set(ip, { count: 1, resetAt: now + 10 * 60 * 1000 });
+    return true;
+  }
+  if (entry.count >= 30) return false;
+  entry.count += 1;
+  return true;
+}
+
+app.post('/api/hint', async (req, res) => {
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
+  if (!hintAllowed(ip)) {
+    return res.status(429).json({ error: 'Too many hint requests — wait a few minutes and try again.' });
+  }
+
+  const { question, correctAnswer, studentAnswer, topic } = req.body || {};
+  if (!question || typeof studentAnswer !== 'string' || !studentAnswer.trim()) {
+    return res.status(400).json({ error: 'question and studentAnswer are required' });
+  }
+  if (!OPENAI_API_KEY) {
+    return res.status(500).json({ error: 'Server is missing OPENAI_API_KEY.' });
+  }
+
+  const system =
+    "You are a patient Computer Science tutor helping an A Level / CIE / NIS student with binary arithmetic " +
+    "and two's complement. The student's answer is WRONG. Give one short, encouraging hint (max 2 sentences) " +
+    "that points at their likely mistake and the correct method — for example which step to redo or what rule " +
+    "they may have missed. You know the correct answer but must NEVER state it, or any number/bit pattern that " +
+    "would let them derive it directly — guide their thinking only.";
+
+  const user = [
+    `Topic: ${topic || 'Binary arithmetic'}`,
+    `Question: ${question}`,
+    `Student's (incorrect) answer: ${studentAnswer}`,
+    correctAnswer !== undefined ? `[For your own reference only, never reveal: correct answer is ${JSON.stringify(correctAnswer)}]` : null,
+  ].filter(Boolean).join('\n');
+
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_API_KEY}` },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        temperature: 0.4,
+        max_tokens: 120,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user },
+        ],
+      }),
+    });
+
+    if (!resp.ok) {
+      const detail = await resp.text();
+      return res.status(502).json({ error: 'OpenAI request failed', detail });
+    }
+
+    const json = await resp.json();
+    const hint = json.choices?.[0]?.message?.content?.trim() || 'Re-check your working step by step and try again.';
+    res.json({ hint });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 const publicDir = path.join(__dirname, '..', 'public');
 app.use(express.static(publicDir));
 app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'index.html')));
