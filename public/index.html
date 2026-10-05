@@ -468,9 +468,16 @@ const AI_MAX_MARKS_P1 = {
   p1_11a:2, p1_11b:1, p1_11c:1, p1_11d:3,
   p1_12a:2, p1_12b:2, p1_12c:2, p1_12d:1,
 };
+// Binary Arithmetic practice pack — its own standalone HTML page (not
+// rendered inside #app/#appPaper1). Gated the same way: a student only
+// reaches it once their class has it open; the page itself re-checks this
+// with the same /api/class-status call before showing any content.
+const PRACTICE_SLUG = 'binary-arithmetic-practice';
+const PRACTICE_URL = '/Binary_Arithmetic_Twos_Complement_A_Level_CIE_NIS_Theory_Pack.html';
+
 // Assignments the client actually knows how to render. "View" in the
 // teacher's Worksheets/Mock Exams table is only enabled for these.
-const IMPLEMENTED_ASSIGNMENTS = [CURRENT_ASSIGNMENT_SLUG, PAPER1_SLUG];
+const IMPLEMENTED_ASSIGNMENTS = [CURRENT_ASSIGNMENT_SLUG, PAPER1_SLUG, PRACTICE_SLUG];
 
 let session = null, profile = null, submissionState = null, submissionStateP1 = null, violationCount = 0, isTeacher = false;
 
@@ -632,6 +639,7 @@ async function routeAfterAuth(){
 }
 
 function goToAssignment(slug){
+  if(slug === PRACTICE_SLUG){ location.href = PRACTICE_URL; return; }
   if(slug === PAPER1_SLUG) showAppPaper1();
   else showApp();
 }
@@ -641,7 +649,7 @@ function showAssignmentChooser(list){
   changePasswordScreen.classList.add('hidden');
   classLockedScreen.classList.add('hidden');
   const el = document.getElementById('chooserList');
-  el.innerHTML = list.map(a => `<button type="button" class="btn primary" data-slug="${escapeHtml(a.slug)}">${escapeHtml(a.title)} (${a.type==='mock_exam'?'Mock exam':'Worksheet'})</button>`).join('');
+  el.innerHTML = list.map(a => `<button type="button" class="btn primary" data-slug="${escapeHtml(a.slug)}">${escapeHtml(a.title)} (${a.type==='mock_exam'?'Mock exam':a.type==='practice'?'Practice':'Worksheet'})</button>`).join('');
   el.querySelectorAll('[data-slug]').forEach(btn=>{
     btn.onclick = () => { assignmentChooserScreen.classList.add('hidden'); goToAssignment(btn.dataset.slug); };
   });
@@ -1205,7 +1213,7 @@ async function loadClassAssignments(name){
     const rows = assignments.map(a => `
       <tr>
         <td>${escapeHtml(a.title)}</td>
-        <td>${a.type === 'mock_exam' ? 'Mock exam' : 'Worksheet'}</td>
+        <td>${a.type === 'mock_exam' ? 'Mock exam' : a.type === 'practice' ? 'Practice' : 'Worksheet'}</td>
         <td><span class="dash-badge ${a.is_open ? '' : 'warn'}">${a.is_open ? 'Open' : 'Closed'}</span></td>
         <td>
           <button type="button" class="viewbtn" data-assignment="${a.id}" data-open="${a.is_open ? '0' : '1'}">${a.is_open ? 'Close' : 'Open'}</button>
@@ -1234,7 +1242,8 @@ async function loadClassAssignments(name){
 
     body.querySelectorAll('[data-view]').forEach(btn=>{
       btn.onclick = () => {
-        if(btn.dataset.view === PAPER1_SLUG) showWorksheetPreviewPaper1();
+        if(btn.dataset.view === PRACTICE_SLUG) window.open(PRACTICE_URL, '_blank');
+        else if(btn.dataset.view === PAPER1_SLUG) showWorksheetPreviewPaper1();
         else showWorksheetPreview();
       };
     });

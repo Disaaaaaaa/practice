@@ -338,7 +338,21 @@
 </head>
 
 <body>
-<div class="page">
+
+<div id="gateScreen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#fff 0%,#eef3ff 100%)">
+  <div style="max-width:420px;width:100%;background:#fff;border:1px solid #dfe5ef;border-radius:20px;padding:30px;box-shadow:0 10px 30px rgba(27,39,70,.08);text-align:center">
+    <p id="gateMessage">Checking access…</p>
+    <button type="button" id="gateLogoutBtn" style="display:none;margin-top:14px;background:#2357d9;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer">Log out</button>
+  </div>
+</div>
+
+<div class="page" id="pageContent" style="display:none">
+
+  <div style="display:flex;justify-content:flex-end;gap:10px;align-items:center;margin-bottom:2px">
+    <strong id="practiceNickname"></strong>
+    <span id="practiceRole" style="background:#eaf0ff;color:#2446a8;padding:3px 10px;border-radius:999px;font-weight:700;font-size:12px;text-transform:uppercase"></span>
+    <button type="button" id="practiceLogoutBtn" style="background:#2357d9;color:#fff;border:0;border-radius:8px;padding:6px 13px;font-weight:700;cursor:pointer">Log out</button>
+  </div>
 
   <header class="hero" id="top">
     <div class="eyebrow">Computer Science • A Level / CIE / NIS Theory Pack</div>
@@ -1737,8 +1751,86 @@ Answer: −17</div>
     binary arithmetic conventions. This is a teacher-created resource, not an official Cambridge publication.
   </footer>
 </div>
-<script>
-(function(){
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// ---- same project as public/index.html ----
+const SUPABASE_URL = 'https://ybgqgtwyefshwibkgvgo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InliZ3FndHd5ZWZzaHdpYmtndmdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MjUwOTAsImV4cCI6MjEwNjQwMTA5MH0.li0Wj0Lkr7Jdc-Z45m8yVguSI-tsBD9jie58SocwKxg';
+const PRACTICE_SLUG = 'binary-arithmetic-practice';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const gateScreen = document.getElementById('gateScreen');
+const gateMessage = document.getElementById('gateMessage');
+const gateLogoutBtn = document.getElementById('gateLogoutBtn');
+const pageContent = document.getElementById('pageContent');
+
+let accessToken = null;
+
+async function authFetch(path, opts = {}){
+  return fetch(path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', ...(opts.headers||{}), Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+async function doLogout(){
+  await supabase.auth.signOut();
+  location.href = '/';
+}
+gateLogoutBtn.onclick = doLogout;
+
+async function checkAccess(){
+  const { data } = await supabase.auth.getSession();
+  if(!data.session){
+    gateMessage.textContent = 'Please log in first.';
+    setTimeout(()=>{ location.href = '/'; }, 1200);
+    return false;
+  }
+  accessToken = data.session.access_token;
+
+  const meRes = await authFetch('/api/me');
+  const me = await meRes.json().catch(()=>({}));
+  const profile = me.profile;
+  if(!profile){
+    gateMessage.textContent = 'Could not load your account. Please log in again.';
+    gateLogoutBtn.style.display = 'inline-block';
+    return false;
+  }
+
+  if(profile.role === 'teacher'){
+    document.getElementById('practiceNickname').textContent = profile.nickname || '';
+    document.getElementById('practiceRole').textContent = 'teacher';
+    return true;
+  }
+
+  const statusRes = await authFetch('/api/class-status');
+  const status = await statusRes.json().catch(()=>({assignments:[]}));
+  const isOpen = (status.assignments||[]).some(a => a.slug === PRACTICE_SLUG);
+  if(!isOpen){
+    gateMessage.innerHTML = profile.class
+      ? `Your teacher has not opened this practice pack for class <strong>${profile.class}</strong> yet. Please wait and try again.`
+      : 'Your account has no class assigned. Ask your teacher to fix this.';
+    gateLogoutBtn.style.display = 'inline-block';
+    return false;
+  }
+
+  document.getElementById('practiceNickname').textContent = profile.nickname || '';
+  document.getElementById('practiceRole').textContent = 'student';
+  return true;
+}
+
+checkAccess().then(ok=>{
+  if(ok){
+    gateScreen.style.display = 'none';
+    pageContent.style.display = '';
+    document.getElementById('practiceLogoutBtn').onclick = doLogout;
+  }
+}).catch(err=>{
+  gateMessage.textContent = 'Could not check access: ' + err.message;
+  gateLogoutBtn.style.display = 'inline-block';
+});
+
 const TASKS = [
   {id:"add1",topic:"Binary addition",q:"Calculate 000101\u2082 + 011100\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:33,marks:2},
   {id:"add2",topic:"Binary addition",q:"Calculate 01000011\u2082 + 00111110\u2082 (unsigned). Give your answer as a binary number.",type:"ubin",answer:129,marks:2},
@@ -1923,9 +2015,8 @@ document.querySelectorAll('[data-task]').forEach(wrap=>{
     setFeedback(feedback, 'pending', 'Checking…');
     btn.disabled = true;
     try{
-      const res = await fetch('/api/hint', {
+      const res = await authFetch('/api/hint', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           question: task.q,
           correctAnswer: Array.isArray(task.answer) ? task.answer.join(' to ') : task.answer,
@@ -1954,7 +2045,6 @@ fetch('/api/health').then(r=>r.json()).then(d=>{
 }).catch(()=>{
   if(serverNoteEl) serverNoteEl.textContent = 'Hints unavailable — open this page via the project\'s Node server, not as a local file.';
 });
-})();
 </script>
 
 </body>

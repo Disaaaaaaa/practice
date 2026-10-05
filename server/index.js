@@ -463,14 +463,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // ---------- self-study hints (Binary Arithmetic practice pack) ----------
-// Deliberately not behind Supabase login — this is an open practice tool,
-// not a graded submission. Correctness itself is checked entirely in the
-// browser (public/..._Theory_Pack.html); this endpoint is only reached
-// when the student's answer was WRONG, to get a short hint instead of the
-// answer. A simple per-IP limit caps how much that can cost if the page is
-// ever exposed publicly (works for the local/traditional server; on a
-// serverless host like Vercel each cold instance gets its own counter, so
-// treat this as a soft guard, not a hard one).
+// The Binary Arithmetic practice pack is now a gated assignment like the
+// others (slug 'binary-arithmetic-practice') — a student must be logged in
+// and their class must have it open to even load the page. This endpoint
+// mirrors that: it requires a valid session. The per-IP limit stays on as
+// a second line of defense against one account hammering it.
 const hintRateLimit = new Map();
 function hintAllowed(ip) {
   const now = Date.now();
@@ -484,7 +481,7 @@ function hintAllowed(ip) {
   return true;
 }
 
-app.post('/api/hint', async (req, res) => {
+app.post('/api/hint', requireUser, async (req, res) => {
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
   if (!hintAllowed(ip)) {
     return res.status(429).json({ error: 'Too many hint requests — wait a few minutes and try again.' });
